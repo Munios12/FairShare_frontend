@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FairShare – Mockups</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">FairShare</div>
+      <div class="header-right">
+        <div class="user">
+          <div class="avatar">JD</div>
+          <span class="user-name">—</span>
+        </div>
+        <button class="btn ghost" data-nav="config">⚙️ Ajustes</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <button class="nav-item active" data-nav="dashboard">🏠 Inicio</button>
+        <button class="nav-item" data-nav="grupos">👥 Grupos</button>
+        <button class="nav-item" data-nav="nuevo">➕ Añadir gasto</button>
+        <button class="nav-item" data-nav="balance">📊 Balance</button>
+        <button class="nav-item" data-nav="config">⚙️ Configuración</button>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+
+        <!-- LOGIN -->
+        <section id="login" class="screen visible">
+          <div class="center-card">
+            <h1 class="title">Inicia sesión en FairShare</h1>
+            <div class="form" id="loginForm">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" placeholder="usuario@email.com" />
+              <label for="password">Contraseña</label>
+              <input type="password" id="password" placeholder="••••••••" />
+              <button class="btn primary" id="btnLogin">Iniciar sesión</button>
+              <p class="muted" style="margin-top:8px;">
+                ¿No tienes cuenta?
+                <a href="#" id="goRegister">Regístrate aquí</a>
+              </p>
+              <p class="muted" style="margin-top:8px;">
+                Usuario demo: <b>juan@email.com</b> / <b>1234</b>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- REGISTRO -->
+        <section id="register" class="screen">
+          <div class="center-card">
+            <h1 class="title">Crear cuenta en FairShare</h1>
+            <div class="form" id="registerForm">
+              <label for="regName">Nombre completo</label>
+              <input type="text" id="regName" placeholder="Tu nombre" />
+              <label for="regEmail">Correo electrónico</label>
+              <input type="email" id="regEmail" placeholder="usuario@email.com" />
+              <label for="regPass">Contraseña</label>
+              <input type="password" id="regPass" placeholder="••••••••" />
+              <button class="btn primary" id="btnRegister">Registrarme</button>
+
+              <!--  Mensaje dinámico (errores o éxito del registro) -->
+              <div id="msgRegister" class="msg"></div>
+
+              <p class="muted" style="margin-top:8px;">
+                ¿Ya tienes cuenta?
+                <a href="#" id="goLogin">Volver al inicio de sesión</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="screen">
+          <h1 class="title">Dashboard – Inicio</h1>
+          <div class="stats">
+            <div class="stat"><div class="n">€247,50</div><div class="l">Total gastado</div></div>
+            <div class="stat"><div class="n">3</div><div class="l">Grupos activos</div></div>
+            <div class="stat"><div class="n">€82,30</div><div class="l">Debes recibir</div></div>
+          </div>
+
+          <div class="grid">
+            <div class="card">
+              <div class="card-title">Grupo: Viaje a Barcelona</div>
+              <p class="muted">
+                Último gasto: Cena restaurante (€45,00)<br/>
+                Participantes: 4 personas<br/>
+                Balance: Debes €12,50
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Grupo: Piso compartido</div>
+              <p class="muted">
+                Último gasto: Supermercado (€67,80)<br/>
+                Participantes: 3 personas<br/>
+                Balance: Te deben €22,60
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Gastos recientes</div>
+              <ul class="list">
+                <li>Gasolina – €35,00</li>
+                <li>Cena pizza – €28,50</li>
+                <li>Supermercado – €67,80</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" data-nav="nuevo">➕ Añadir nuevo gasto</button>
+            <button class="btn outline" data-nav="grupos">👥 Crear grupo</button>
+          </div>
+        </section>
+
+        <!-- GRUPOS -->
+        <section id="grupos" class="screen">
+          <h1 class="title">Mis grupos</h1>
+          <div class="list"></div>
+          <button id="nuevo-grupo-btn" class="btn primary" style="margin-top:20px;">
+            ➕ Crear nuevo grupo
+          </button>
+        </section>
+
+        <!-- NUEVO GASTO -->
+        <section id="nuevo" class="screen">
+          <h1 class="title">Añadir gasto</h1>
+          <div class="form card padded">
+            <label>Concepto</label>
+            <input type="text" placeholder="Cena restaurante" />
+            <label>Cantidad (€)</label>
+            <input type="number" step="0.01" placeholder="0,00" />
+            <label>Pagado por</label>
+            <select>
+              <option>Juan</option><option>Luismi</option><option>Alex</option><option>Jesús</option>
+            </select>
+            <label>Participantes</label>
+            <div class="chips">
+              <label><input type="checkbox" checked /> Juan</label>
+              <label><input type="checkbox" checked /> Luismi</label>
+              <label><input type="checkbox" /> Alex</label>
+              <label><input type="checkbox" checked /> Jesús</label>
+            </div>
+            <button class="btn primary">Guardar gasto</button>
+          </div>
+        </section>
+
+        <!-- BALANCE -->
+        <section id="balance" class="screen">
+          <h1 class="title">Balance general</h1>
+          <div class="card padded">
+            <table class="table">
+              <thead>
+                <tr><th>Usuario</th><th>Debe (€)</th><th>Recibe (€)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Juan</td><td class="neg">12,50</td><td>0,00</td></tr>
+                <tr><td>Luismi</td><td>0,00</td><td class="pos">22,60</td></tr>
+                <tr><td>Alex</td><td class="neg">8,30</td><td>0,00</td></tr>
+                <tr><td>Jesús</td><td>0,00</td><td class="pos">10,20</td></tr>
+              </tbody>
+            </table>
+            <div class="actions end">
+              <button class="btn outline">Descargar reporte</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIG -->
+        <section id="config" class="screen">
+          <h1 class="title">Configuración</h1>
+          <div class="form card padded">
+            <label>Nombre</label>
+            <input type="text" value="Juan Díaz" />
+            <label>Correo</label>
+            <input type="email" value="juan@email.com" />
+            <label>Contraseña</label>
+            <input type="password" placeholder="••••••••" />
+            <div class="actions">
+              <button class="btn primary">Guardar cambios</button>
+              <button class="btn danger">Eliminar cuenta</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      <small>FairShare © 2025 — Proyecto DAW</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
