@@ -31,7 +31,6 @@ export default function AppLayout() {
 
         {/* CONTENIDO PRINCIPAL */}
         {/* "Outlet" se reemplaza automáticamente por la página correspondiente */}
-        {/* Ej: /dashboard → se pinta Dashboard.jsx dentro de <Outlet /> */}
         <main className="main">
           <Outlet />
         </main>
