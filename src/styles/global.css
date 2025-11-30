@@ -1,78 +1,168 @@
-/* === VARIABLES === */
+/* === VARIABLES DE COLOR Y TEMAS === */
+/* Centralizan colores y permiten cambiar fácilmente toda la paleta */
 :root{
-  --bg:#F6F8FA;
-  --ink:#243447;
-  --muted:#6b7280;
-  --border:#E8E8E8;
-  --brand:#4FC3B1;
-  --brand-600:#3BA797;
-  --red:#E25656;
-  --green:#25a27a;
-  --card:#fff;
+  --bg:#F6F8FA;        /* Color de fondo general de la app */
+  --ink:#243447;       /* Color principal del texto y sidebar/header */
+  --muted:#6b7280;     /* Color gris suave para subtítulos o textos secundarios */
+  --border:#E8E8E8;    /* Color usado para bordes ligeros */
+  --brand:#4FC3B1;     /* Color principal de FairShare (verde menta) */
+  --brand-600:#3BA797; /* Versión más oscura del color brand (hover / énfasis) */
+  --red:#E25656;       /* Rojo para botones de peligro */
+  --green:#25a27a;     /* Verde para validaciones o balances positivos */
+  --card:#fff;         /* Fondo de tarjetas (blanco puro) */
 }
 
+/* Ajuste global del box-model para evitar problemas con padding y ancho */
 * { box-sizing:border-box; }
+
+/* Estilos base del <body> */
 body {
   margin:0;
-  font-family:Poppins, system-ui, sans-serif;
-  background:var(--bg);
-  color:var(--ink);
+  font-family:Poppins, system-ui, sans-serif; /* Fuente principal */
+  background:var(--bg);                       /* Fondo gris suave */
+  color:var(--ink);                           /* Color de texto por defecto */
 }
 
-/* === LAYOUT === */
+/* === LAYOUT GENERAL DE LA APLICACIÓN === */
 .app-layout {
-  min-height:100vh;
+  min-height:100vh;        /* Altura mínima → pantalla completa */
   display:flex;
-  flex-direction:column;
+  flex-direction:column;   /* Header arriba, contenido, footer abajo */
 }
 
+/* HEADER */
 .header {
-  height:64px;
-  background:var(--ink);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 24px;
+  height: 64px;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;        /* Centrar verticalmente */
+  justify-content: space-between;
+  padding: 0 24px;
 }
 
-.logo { font-weight:700; }
+/* Contenedor derecho: avatar + nombre + botón */
+.header-right {
+  display: flex;
+  align-items: center;        /* Centrado vertical */
+  gap: 16px;                  /* Separación uniforme */
+}
 
+/* Bloque del usuario */
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;                   /* Separación entre avatar y nombre */
+}
+
+/* Avatar redondo */
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Nombre pequeño y discreto */
+.user-name {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Botón Ajustes */
+.header .btn.ghost {
+  padding: 8px 18px;
+  height: 36px;              
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo del header */
+.logo {
+  font-weight: 700;
+  font-size: 22px;   /* tamaño header */
+  letter-spacing: -0.5px; 
+}
+
+/* ========================= */
+/* BRAND DEL HEADER (logo + texto) */
+/* ========================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px; 
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 22px;
+  color: #fff;
+  letter-spacing: -0.4px;
+}
+
+
+/* Contenedor principal del layout: sidebar izquierda + contenido derecha */
 .layout {
   display:flex;
-  min-height:calc(100vh - 64px);
+  min-height:calc(100vh - 64px); /* 100vh menos la altura del header */
 }
 
-/* === SIDEBAR === */
+/* === SIDEBAR LATERAL IZQUIERDA === */
 .sidebar {
-  width:220px;
-  background:var(--ink);
+  width:220px;                   /* Ancho fijo */
+  background:var(--ink);         /* Mismo color que el header */
   padding:16px;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:8px;                       /* Separación entre botones del menú */
 }
 
+/* Botones del menú lateral */
 .nav-item {
-  all:unset;
-  color:#e5e7eb;
+  all:unset;                     /* Resetea TODOS los estilos por defecto */
+  color:#e5e7eb;                 /* Gris muy claro */
   padding:12px 14px;
   border-radius:8px;
   cursor:pointer;
 }
-.nav-item:hover { background:rgba(79,195,177,.12); color:var(--brand); }
-.nav-item.active { background:var(--brand); color:#fff; }
 
-/* === MAIN === */
-.main {
-  flex:1;
-  padding:32px;
-  background:#fff;
+/* Hover de los elementos del menú */
+.nav-item:hover { 
+  background:rgba(79,195,177,.12); /* Verde brand muy suave */
+  color:var(--brand);
 }
 
-.title { font-size:22px; margin-bottom:20px; }
+/* Cuando el usuario está en esa ruta */
+.nav-item.active { 
+  background:var(--brand); /* Fondo verde menta */
+  color:#fff;              /* Texto blanco */
+}
 
-/* BOTONES */
+/* === CONTENIDO PRINCIPAL === */
+.main {
+  padding: 32px 48px; /* Separación lateral para centrar contenido igual que mockup */
+}
+
+/* Títulos h1 de cada página */
+.title {
+  margin-bottom: 24px; /* Separación inferior */
+}
+
+/* === BOTONES GENERALES === */
 .btn {
   border:none;
   border-radius:8px;
@@ -81,22 +171,348 @@ body {
   cursor:pointer;
 }
 
-.btn.primary { background:var(--brand); color:#fff; }
-.btn.primary:hover{ background:var(--brand-600); }
+/* Botón verde principal */
+.btn.primary { 
+  background:var(--brand); 
+  color:#fff; 
+}
 
+/* Hover del botón verde */
+.btn.primary:hover{ 
+  background:var(--brand-600); /* un poco más oscuro */
+}
+
+/* Botón estilo outline */
 .btn.outline {
   background:#fff;
-  border:1px solid var(--ink);
+  border:1px solid var(--ink); /* borde gris oscuro */
   color:var(--ink);
 }
 
+/* Botón ghost (transparente, estilo configuración) */
 .btn.ghost {
   background:transparent;
   border:1px solid #e5e7eb;
   color:#e5e7eb;
 }
 
+/* Botón peligro */
 .btn.danger {
   background:var(--red);
   color:#fff;
 }
+
+/* === LISTAS  === */
+.list {
+  list-style: none; /* Sin puntos */
+  padding-left: 0;
+  display: grid;
+  gap: 8px;
+}
+
+/* Centrar tarjeta de login/register */
+.center-card {
+  display: grid;
+  place-items: center; /* Centrado vertical/horizontal */
+  height: 100%;
+}
+
+/* Pantallas visibles  */
+.screen.visible {
+  display: block;
+}
+
+/* Margen de items dentro de listas de cards */
+.grid .card .list li {
+  margin: 4px 0;
+}
+
+/* === TARJETAS VERDES DE ESTADÍSTICAS === */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+  gap: 24px;
+  padding: 24px 0;
+}
+
+/* Tarjeta individual */
+.stat {
+  background: linear-gradient(120deg, #4FC3B1, #3BA797); /* Degradado verde */
+  border-radius: 12px;
+  padding: 24px;
+  color: #fff;
+  text-align: center; /* Texto centrado */
+}
+
+/* Número grande (ej: €247,50) */
+.stat .n {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* Etiqueta inferior */
+.stat .l {
+  font-size: 16px;
+  opacity: .9;
+}
+
+/* === TARJETAS BLANCAS DEL DASHBOARD === */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra suave */
+}
+
+/* Título de las cards blancas */
+.card-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+/* GRID PRINCIPAL DE LAS CARDS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Contenedor de botones inferiores del dashboard */
+.actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+/* Botón primary del Dashboard */
+.btn.primary {
+  background: #4FC3B1;
+  color: #fff;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* Hover botón primary */
+.btn.primary:hover {
+  background: #3BA797;
+}
+
+/* Botón outline mejorado */
+.btn.outline {
+  border: 2px solid #243447;
+  background: transparent;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* === NUEVO GASTO === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                 
+}
+
+/* Card blanca EXACTA del mockup */
+.form.card {
+  width: 100%;
+  max-width: 1100px;         
+  background: #fff;
+  padding: 32px;             
+  border-radius: 12px;
+  margin: 24px auto 0 auto;  
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* INPUTS  */
+.form input,
+.form select {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 1px solid #E8E8E8;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+}
+
+.form input::placeholder {
+  color: #aaa;
+}
+
+.form input[type="number"] {
+  text-align: left;
+}
+
+/* LABELS  */
+.form label {
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: -4px; 
+}
+
+/* PARTICIPANTES */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;     
+  margin: 10px 0;
+}
+
+.chips label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+/* BOTÓN */
+.form button.btn.primary {
+  width: 100%;
+  padding: 16px;
+  margin-top: 8px;
+  background: #4FC3B1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.form button.btn.primary:hover {
+  background: #3BA797;
+}
+
+/* El layout ocupa todo el ancho disponible */
+.layout {
+  display: flex;
+  width: 100%;
+}
+
+/* El área principal ocupa tODO el espacio libre */
+.main {
+  flex: 1;                     
+  width: 100%;                
+  max-width: 1400px;           
+  margin: 0 auto;              
+  padding: 48px 64px;          
+}
+
+/* === BALANCE === */
+/* Card del balance  */
+.card.padded {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 32px;
+}
+
+/* Tabla del balance */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+/* Cabecera de tabla */
+.table thead th {
+  text-align: left;
+  padding: 14px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Filas con más espacio y línea separadora  */
+.table tbody td {
+  padding: 18px 12px;
+  font-size: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Valores negativos (Debe) */
+.table .neg {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* Valores positivos (Recibe) */
+.table .pos {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Botón alineado a la derecha dentro de la card */
+.actions.end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* === CONFIGURACIÓN: BOTONES === */
+.settings-actions {
+  display: flex;           /* botones en fila */
+  gap: 12px;               /* separación entre botones */
+  margin-top: 24px;        /* separación del formulario */
+}
+
+.settings-actions .btn {
+  width: 180px;            /* tamaño idéntico para ambos botones */
+  padding: 12px 0;         /* altura consistente */
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Botón guardar (verde) */
+.settings-actions .btn.save {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+}
+
+.settings-actions .btn.save:hover {
+  background: var(--brand-600);
+}
+
+/* Botón eliminar (rojo) */
+.settings-actions .btn.delete {
+  background: var(--red);
+  color: white;
+  border: none;
+}
+
+/* Logo grande para Login, Registro y Recuperar Contraseña */
+.auth-logo {
+  width: 160px;           /* Tamaño */
+  height: auto;           /* Mantener */
+  margin: 16px 0 8px 0;   /* Espaciado superior e inferior */
+  object-fit: contain;
+
+  opacity: 0;
+  transform: scale(0.98);
+  animation: fadeInLogo 0.6s ease-out forwards;
+}
+
+.auth-logo.small {
+  width: 140px;
+}
+
+@keyframes fadeInLogo {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === FOOTER === */
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  opacity: .7;
+  font-size: 14px;
+}
+

@@ -1,8 +1,62 @@
+/**
+ * Página de "Balance general" 
+ * Estructura exacta: título → card → tabla → botón.
+ */
+
 export default function Balance() {
+  // 🔹 Datos estáticos temporales (igual que en tu mockup HTML)
+  //   Más adelante los conectaremos con el backend y con el contexto global.
+  const usuarios = [
+    { nombre: "Juan", debe: 0, recibe: 0 },
+    { nombre: "Luismi", debe: 0, recibe: 0 },
+    { nombre: "Alex", debe: 0, recibe: 0 },
+    { nombre: "Jesús", debe: 0, recibe: 0 }
+  ];
+
   return (
     <div>
-      <h1 className="title">Balance</h1>
-      <p>Pantalla de balance en construcción...</p>
+      {/* 🔹 Título principal de la página */}
+      <h1 className="title">Balance general</h1>
+
+      {/* 🔹 Contenedor principal tipo tarjeta (card blanca del mockup) */}
+      <div className="card padded">
+        
+        {/* ============================== */}
+        {/*  TABLA DE BALANCE GENERAL      */}
+        {/* ============================== */}
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Debe (€)</th>
+              <th>Recibe (€)</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {usuarios.map((u) => (
+              <tr key={u.nombre}>
+                {/* Nombre de usuario */}
+                <td>{u.nombre}</td>
+
+                {/* Cantidad que debe (en rojo) */}
+                <td className="neg">€{u.debe.toFixed(2)}</td>
+
+                {/* Cantidad que recibe (en verde) */}
+                <td className="pos">€{u.recibe.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* ============================== */}
+        {/*  BOTÓN "DESCARGAR REPORTE"     */}
+        {/* ============================== */}
+        <div className="actions end">
+          <button className="btn outline">Descargar reporte</button>
+        </div>
+      </div>
     </div>
   );
 }

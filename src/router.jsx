@@ -3,6 +3,7 @@ import AppLayout from "./layout/AppLayout";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import RecuperarContrasena from "./pages/RecuperarContrasena";
 import Dashboard from "./pages/Dashboard";
 import Grupos from "./pages/Grupos";
 import NuevoGasto from "./pages/NuevoGasto";
@@ -15,6 +16,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/recuperar" element={<RecuperarContrasena />} />
 
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />

@@ -1,26 +1,26 @@
 // Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";  
 
-export default function Register() {
+export default function RecuperarContrasena() {
   return (
     <div className="center-card">
-      <h1 className="title">Crear cuenta en FairShare</h1>
+      <h1 className="title">Recuperar contraseña de FairShare</h1>
       <img src={logo} alt="FairShare logo" className="auth-logo small" />
 
       <div className="form">
-        <label>Nombre completo</label>
-        <input type="text" placeholder="Tu nombre" />
-
         <label>Correo electrónico</label>
         <input type="email" placeholder="usuario@email.com" />
 
-        <label>Contraseña</label>
+        <label>Nueva contraseña</label>
         <input type="password" placeholder="••••••••" />
 
-        <button className="btn primary">Registrarme</button>
+        <label>Repite contraseña</label>
+        <input type="password" placeholder="••••••••" />
+
+        <button className="btn primary">Crear nueva contraseña</button>
 
         <p className="muted" style={{ marginTop: 8 }}>
-          ¿Ya tienes cuenta? <a href="/">Volver al login</a>
+          ¿Recuerdas tu contraseña? <a href="/">Volver al login</a>
         </p>
       </div>
     </div>
