@@ -1,5 +1,3 @@
-// useExpenses.js
-// ---------------
 // Hook personalizado para acceder al contexto de gastos
 // Garantiza que nunca se use fuera de un <ExpensesProvider>
 

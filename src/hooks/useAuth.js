@@ -1,5 +1,3 @@
-// useAuth.js
-// ----------
 // Custom hook para consumir el contexto de autenticación
 // en cualquier componente de forma sencilla: const { user } = useAuth();
 

@@ -1,10 +1,5 @@
-/**
- * Página de "Balance general" 
- * Estructura exacta: título → card → tabla → botón.
- */
-
 export default function Balance() {
-  // 🔹 Datos estáticos temporales (igual que en tu mockup HTML)
+  // Datos estáticos temporales 
   //   Más adelante los conectaremos con el backend y con el contexto global.
   const usuarios = [
     { nombre: "Juan", debe: 0, recibe: 0 },
@@ -15,16 +10,11 @@ export default function Balance() {
 
   return (
     <div>
-      {/* 🔹 Título principal de la página */}
+      {/* Título principal de la página */}
       <h1 className="title">Balance general</h1>
 
-      {/* 🔹 Contenedor principal tipo tarjeta (card blanca del mockup) */}
+      {/* Contenedor principal tipo tarjeta  */}
       <div className="card padded">
-        
-        {/* ============================== */}
-        {/*  TABLA DE BALANCE GENERAL      */}
-        {/* ============================== */}
-
         <table className="table">
           <thead>
             <tr>
@@ -50,9 +40,7 @@ export default function Balance() {
           </tbody>
         </table>
 
-        {/* ============================== */}
         {/*  BOTÓN "DESCARGAR REPORTE"     */}
-        {/* ============================== */}
         <div className="actions end">
           <button className="btn outline">Descargar reporte</button>
         </div>

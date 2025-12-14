@@ -1,14 +1,6 @@
-/**
-
- * Pantalla de "Configuración de usuario".
- * Respeta exactamente la estructura visual: título → card → formulario → botones.
- *
- * Más adelante esta pantalla se conectará al backend (GET usuario + PUT update + DELETE).
- */
-
 export default function Configuracion() {
 
-  // 🔹 Datos por defecto del mockup (luego vendrán del contexto o backend)
+  // Datos por defecto 
   const usuario = {
     nombre: "Juan Díaz",
     correo: "juan@email.com",

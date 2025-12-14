@@ -78,6 +78,15 @@ export default function NuevoGasto() {
           onChange={(e) => setConcepto(e.target.value)}
         />
 
+        {/* Campo: concepto del gasto */}
+        <label>Grupo</label>
+        <input
+          type="text"
+          placeholder="Añadir a grupo"
+          value={concepto}
+          onChange={(e) => setConcepto(e.target.value)}
+        />
+
         {/* Campo: cantidad en euros */}
         <label>Cantidad (€)</label>
         <input

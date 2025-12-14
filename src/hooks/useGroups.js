@@ -1,5 +1,3 @@
-// useGroups.js
-// -------------
 // Hook personalizado para acceder al contexto de Grupos
 // Garantiza que siempre se use dentro de <GroupsProvider>
 

@@ -1,53 +1,66 @@
 // Página: Mis grupos
 // Esta pantalla muestra todos los grupos del usuario y permite crear otros nuevos.
-// Por ahora, los datos se muestran estáticos (modo mockup).
-// Más adelante se conectarán al backend con GroupsContext + groupsService.
 
 import { useState } from "react";
 
 export default function Grupos() {
-  // =============================
-  //  ESTADO LOCAL TEMPORAL
-  // =============================
-  // En el mockup original, los grupos estaban en un array:
-  // ["Piso compartido", "Viaje a Barcelona"]
-  //
-  // Más adelante este estado vendrá del backend:
-  //   const { groups } = useGroups();
-  //
   const [grupos, setGrupos] = useState([
     "Piso compartido",
     "Viaje a Barcelona",
   ]);
 
-  // =============================
-  //  MANEJAR CREACIÓN DE GRUPOS
-  // =============================
-  // Simula la creación de un grupo como hacía el app.js original.
-  // Más adelante esto será:
-  //   groupsService.create()
-  //   context.addGroup()
-  //
-  const crearGrupo = () => {
-    const nombre = prompt("Introduce el nombre del nuevo grupo:");
+  const [mostrarForm, setMostrarForm] = useState(false);
+  const [nombreGrupo, setNombreGrupo] = useState("");
+  const [error, setError] = useState("");
 
-    if (nombre && nombre.trim() !== "") {
-      setGrupos([...grupos, nombre.trim()]);
-      alert("Grupo creado correctamente ✅");
+  // 🔹 NUEVO: mensaje de éxito
+  const [success, setSuccess] = useState("");
 
-      // En el futuro:
-      // navigate(`/grupos/${nuevoID}`);
+  const crearGrupo = (e) => {
+    e.preventDefault();
+
+    if (!nombreGrupo.trim()) {
+      setError("El nombre del grupo no puede estar vacío.");
+      return;
     }
+
+    setGrupos([...grupos, nombreGrupo.trim()]);
+
+    // 🔹 Mensaje visual de éxito
+    setSuccess("Grupo creado correctamente ✅");
+
+    // Limpieza
+    setNombreGrupo("");
+    setError("");
+    setMostrarForm(false);
+  };
+
+  const cancelar = () => {
+    setMostrarForm(false);
+    setNombreGrupo("");
+    setError("");
+    setSuccess(""); // 🔹 limpiamos mensaje
   };
 
   return (
     <div>
-      {/* TÍTULO PRINCIPAL */}
-      {/* Igual que el mockup original */}
       <h1 className="title">Mis grupos</h1>
 
+      {/* 🔹 MENSAJE DE ÉXITO */}
+      {success && (
+        <div
+          className="card"
+          style={{
+            background: "rgba(72, 187, 120, 0.15)",
+            borderLeft: "4px solid #48bb78",
+            marginBottom: 16,
+          }}
+        >
+          <p style={{ margin: 0 }}>{success}</p>
+        </div>
+      )}
+
       {/* LISTA DE GRUPOS */}
-      {/* Cada grupo se representa como un <li> (igual que en el mockup) */}
       <ul className="list" style={{ marginBottom: "20px" }}>
         {grupos.map((nombre, i) => (
           <li key={i}>{nombre}</li>
@@ -55,10 +68,47 @@ export default function Grupos() {
       </ul>
 
       {/* BOTÓN PRINCIPAL */}
-      {/* Sigue el estilo FairShare: botón verde primario */}
-      <button className="btn primary" onClick={crearGrupo}>
+      <button
+        className="btn primary"
+        onClick={() => {
+          setMostrarForm((v) => !v);
+          setSuccess(""); // 🔹 ocultamos mensaje al abrir form
+        }}
+      >
         ➕ Crear nuevo grupo
       </button>
+
+      {/* FORMULARIO DESPLEGABLE */}
+      {mostrarForm && (
+        <form className="form card" onSubmit={crearGrupo}>
+          <label>Nombre del grupo</label>
+          <input
+            type="text"
+            placeholder="Ej: Viaje a Madrid"
+            value={nombreGrupo}
+            onChange={(e) => {
+              setNombreGrupo(e.target.value);
+              setError("");
+            }}
+          />
+
+          {error && (
+            <p className="muted" style={{ color: "var(--red)", marginTop: 6 }}>
+              {error}
+            </p>
+          )}
+
+          <div className="actions" style={{ marginTop: 16 }}>
+            <button className="btn primary" type="submit">
+              Guardar grupo
+            </button>
+
+            <button className="btn outline" type="button" onClick={cancelar}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
