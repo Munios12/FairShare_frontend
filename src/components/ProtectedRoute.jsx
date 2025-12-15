@@ -1,12 +1,12 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-export default function ProtectedRoute({ children }) {
-  // TODO: conectarlo luego con AuthContext
-  const isAuthenticated = false;
+export default function ProtectedRoute() {
+  const { user } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+  // Si no hay sesión → fuera al login y reemplaza historial (no vuelve con "atrás")
+  if (!user) return <Navigate to="/" replace />;
 
-  return children;
+  // Si hay sesión → renderiza las rutas hijas protegidas
+  return <Outlet />;
 }

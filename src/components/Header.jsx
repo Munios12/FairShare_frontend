@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 // Importamos React hooks
 import { useEffect, useRef, useState } from "react";
 
+// Importamos el hook de Auth para poder hacer logout 
+import useAuth from "../hooks/useAuth";
+
 // Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";
 
@@ -11,6 +14,9 @@ import logo from "../assets/img/FairShare_3.png";
 export default function Header() {
   // Hook para navegar por rutas
   const navigate = useNavigate();
+
+  // Sacamos logout del contexto de autenticación
+  const { logout } = useAuth();
 
   // Dropdown usuario
   const [openUserMenu, setOpenUserMenu] = useState(false);
@@ -57,11 +63,11 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
-  // Acción “Cerrar sesión” (placeholder hasta conectar Auth)
+  // Acción “Cerrar sesión”: limpia sesión + redirige al login sin poder volver atrás
   function handleLogout() {
-    // Aquí iría: logout() del AuthContext
-    alert("Cerrar sesión pendiente de conectar Auth 🙂");
-    setOpenUserMenu(false);
+    logout(); // 1) user => null (AuthContext)
+    setOpenUserMenu(false); // 2) cerramos dropdown
+    navigate("/", { replace: true }); // 3) redirigimos al login y bloqueamos "atrás"
   }
 
   return (
@@ -117,7 +123,7 @@ export default function Header() {
 
               <div className="user-dropdown-sep" />
 
-              {/* Cerrar sesión (placeholder) */}
+              {/* Cerrar sesión  */}
               <button
                 type="button"
                 className="user-dropdown-item danger"
