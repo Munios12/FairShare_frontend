@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // Importamos React hooks
 import { useEffect, useRef, useState } from "react";
 
-// Importamos el hook de Auth para poder hacer logout 
+// Importamos el hook de Auth para poder hacer logout y actualizar usuario
 import useAuth from "../hooks/useAuth";
 
 // Importamos el logo de FairShare
@@ -15,22 +15,32 @@ export default function Header() {
   // Hook para navegar por rutas
   const navigate = useNavigate();
 
-  // Sacamos logout del contexto de autenticación
-  const { logout } = useAuth();
+  // Auth
+  const { user, logout, updateUser } = useAuth();
 
   // Dropdown usuario
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
-  // Iniciales del usuario (placeholder). En el futuro: user.name -> iniciales.
-  const initials = "FS";
+  // Nombre/email/rol (si no hay user, placeholders)
+  const userName = user?.name || "Invitado";
+  const userEmail = user?.email || "—";
+  const userRole = user?.role || "user"; // backend en el futuro: "admin" | "user"
 
-  // Color del avatar (lo que el usuario "elige")
-  const [avatarColor, setAvatarColor] = useState("teal");
+  // Iniciales dinámicas desde el nombre
+  const initials = user?.name
+    ? user.name
+        .trim()
+        .split(/\s+/)              // separa por espacios
+        .filter(Boolean)
+        .slice(0, 2)               // máximo 2 palabras → 2 iniciales
+        .map((w) => w[0].toUpperCase())
+        .join("")
+    : "FS";
 
-  // Nombre placeholder (más adelante: user.name)
-  const userName = "—";
+  // Color del avatar DESDE el usuario (persistente)
+  const avatarColor = user?.avatarColor || "teal";
 
-  // Colores disponibles (pensados para encajar con tu UI)
+  // Colores disponibles
   const colorOptions = [
     { id: "teal", label: "Turquesa" },
     { id: "blue", label: "Azul" },
@@ -63,11 +73,11 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
-  // Acción “Cerrar sesión”: limpia sesión + redirige al login sin poder volver atrás
+  // Cerrar sesión
   function handleLogout() {
-    logout(); // 1) user => null (AuthContext)
-    setOpenUserMenu(false); // 2) cerramos dropdown
-    navigate("/", { replace: true }); // 3) redirigimos al login y bloqueamos "atrás"
+    logout();
+    setOpenUserMenu(false);
+    navigate("/", { replace: true });
   }
 
   return (
@@ -89,21 +99,29 @@ export default function Header() {
             aria-haspopup="menu"
             aria-expanded={openUserMenu}
           >
-            {/* Iniciales fijas + color variable */}
+            {/* Avatar con iniciales dinámicas + color persistente */}
             <div className={`avatar avatar--${avatarColor}`}>{initials}</div>
             <span className="user-name">{userName}</span>
           </button>
 
           {openUserMenu && (
             <div className="user-dropdown" role="menu">
-              {/* Nombre (placeholder) */}
-              <div className="user-dropdown-name">
-                {userName === "—" ? "Invitado" : userName}
+              {/* Nombre */}
+              <div className="user-dropdown-name">{userName}</div>
+
+              {/* Email debajo del nombre */}
+              <div className="user-dropdown-email">{userEmail}</div>
+
+              {/* Rol visible  */}
+              {/* Rol visible */}
+              <div className={`user-dropdown-role ${userRole}`}>
+                {userRole}
               </div>
 
               <div className="user-dropdown-sep" />
 
-              {/* Cambiar color del avatar */}
+
+              {/* Selector de color */}
               <div className="user-dropdown-label">Color del avatar</div>
 
               <div className="color-grid">
@@ -114,7 +132,7 @@ export default function Header() {
                     className={`color-pick color-pick--${c.id} ${
                       avatarColor === c.id ? "active" : ""
                     }`}
-                    onClick={() => setAvatarColor(c.id)}
+                    onClick={() => updateUser({ avatarColor: c.id })}
                     title={c.label}
                     aria-label={`Color ${c.label}`}
                   />
@@ -123,7 +141,6 @@ export default function Header() {
 
               <div className="user-dropdown-sep" />
 
-              {/* Cerrar sesión  */}
               <button
                 type="button"
                 className="user-dropdown-item danger"

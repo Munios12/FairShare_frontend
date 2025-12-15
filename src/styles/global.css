@@ -681,6 +681,31 @@ body {
 .color-pick--yellow { background: #facc15; }
 .color-pick--red { background: #ef4444; }
 
+/* Email */
+.user-dropdown-email {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* Rol */
+.user-dropdown-role {
+  font-size: 13px;
+  margin-top: 6px;
+  opacity: 0.9;
+}
+
+/* Variantes por rol: user y admin */
+.user-dropdown-role.user {
+  color: #6b7280; 
+}
+
+.user-dropdown-role.admin {
+  color: #e25656; 
+  font-weight: 600;
+}
+
+
 /* === FOOTER === */
 .footer {
   display: flex;
