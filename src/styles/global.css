@@ -860,6 +860,14 @@ body {
   color: #e25656;
 }
 
+/* Card en Grupos */
+.card--clickable {
+  cursor: pointer;
+}
+.card--clickable:hover {
+  transform: translateY(-2px);
+  transition: 0.15s;
+}
 
 /* === FOOTER === */
 .footer {

@@ -22,17 +22,20 @@ export default function GroupsProvider({ children }) {
         id: 1,
         name: "Viaje a Barcelona",
         lastExpense: "Cena restaurante (€45,00)",
-        participants: 4,
+        members: 4,
         balance: -12.5,
+        miembros: ["Luismi", "Nicky", "Marta", "Juan"], // ← AHORA COINCIDE
       },
       {
         id: 2,
         name: "Piso compartido",
         lastExpense: "Supermercado (€67,80)",
-        participants: 3,
+        members: 3,
         balance: +22.6,
+        miembros: ["Luismi", "Alex", "Jesús"], // ← AHORA COINCIDE
       },
     ];
+
 
     setGroups(fakeGroups);
   }

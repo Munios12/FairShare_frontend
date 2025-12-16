@@ -1,75 +1,113 @@
-// Página: Añadir gasto
-// Esta pantalla reproduce el formulario original del mockup (HTML + CSS + JS) en formato React.
-// Aquí el usuario puede introducir un concepto, cantidad, quién pagó y los participantes.
-//
-// Versión actual: modo mockup (datos estáticos y no se conecta a backend).
-// Más adelante: conectaremos ExpensesContext y expensesService.
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useGroups from "../hooks/useGroups";
+import useExpenses from "../hooks/useExpenses";
 
 export default function NuevoGasto() {
-  // ======================================
-  //   ESTADOS DEL FORMULARIO (mockup)
-  // ======================================
+  // --- ESTADOS ---
   const [concepto, setConcepto] = useState("");
+  const [grupo, setGrupo] = useState("");
   const [cantidad, setCantidad] = useState("");
-  const [pagadoPor, setPagadoPor] = useState("Juan");
+  const [pagadoPor, setPagadoPor] = useState("");
 
-  // Lista estática de participantes (mockup original)
-  // Más adelante → vendrá del backend (grupo actual)
-  const participantesIniciales = ["Juan", "Luismi", "Alex", "Jesús"];
+  // Listado BASE para que la UI no se rompa
+  const participantesBase = ["Juan", "Luismi", "Alex", "Jesús"];
 
-  // Estado que guarda quién está seleccionado
-  const [participantes, setParticipantes] = useState({
-    Juan: true,
-    Luismi: true,
-    Alex: false,
-    Jesús: true,
-  });
+  const { groups } = useGroups();
+  const { addExpense } = useExpenses();
 
-  // Manejar cambios en los checkboxes
-  const toggleParticipante = (nombre) => {
-    setParticipantes({
-      ...participantes,
-      [nombre]: !participantes[nombre],
-    });
-  };
+  const [participantes, setParticipantes] = useState(
+    participantesBase.reduce((acc, p) => {
+      acc[p] = true;
+      return acc;
+    }, {})
+  );
 
-  // ======================================
-  //  MANEJAR ENVÍO DEL FORMULARIO
-  // ======================================
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Validación básica semejante al mockup original
-    if (!concepto.trim() || !cantidad.trim()) {
-      alert("Por favor completa el concepto y la cantidad.");
+  // --- CUANDO SE ESCRIBE UN GRUPO ---
+  useEffect(() => {
+    if (!grupo.trim()) {
+      // restaurar lista base si el campo está vacío
+      const base = {};
+      participantesBase.forEach((p) => (base[p] = true));
+      setParticipantes(base);
+      setPagadoPor(participantesBase[0]);
       return;
     }
 
-    // Preparar gasto (modo mockup)
-    const gasto = {
+    const g = groups.find(
+      (gr) => gr.name.toLowerCase() === grupo.toLowerCase()
+    );
+
+    if (g) {
+      const inicial = {};
+      g.miembros.forEach((m) => (inicial[m] = true));
+
+      setParticipantes(inicial);
+      setPagadoPor(g.miembros[0] || "");
+    }
+  }, [grupo, groups]);
+
+  // Toggle
+  const toggleParticipante = (nombre) => {
+    setParticipantes((prev) => ({
+      ...prev,
+      [nombre]: !prev[nombre],
+    }));
+  };
+
+  // --- SUBMIT ---
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!concepto.trim() || !cantidad.trim() || !grupo.trim()) {
+      alert("Por favor, completa concepto, cantidad y grupo.");
+      return;
+    }
+
+    const g = groups.find(
+      (gr) => gr.name.toLowerCase() === grupo.toLowerCase()
+    );
+
+    if (!g) {
+      alert("El grupo indicado no existe.");
+      return;
+    }
+
+    const participantesFinal = Object.keys(participantes).filter(
+      (p) => participantes[p]
+    );
+
+    if (participantesFinal.length === 0) {
+      alert("Debe participar al menos 1 miembro.");
+      return;
+    }
+
+    addExpense({
       concepto,
-      cantidad: parseFloat(cantidad),
-      pagadoPor,
-      participantes: Object.keys(participantes).filter((p) => participantes[p]),
-    };
+      amount: parseFloat(cantidad),
+      groupId: g.id,
+      paidBy: pagadoPor,
+      participants: participantesFinal,
+    });
 
-    console.log("GASTO CREADO (mockup):", gasto);
+    alert(`Gasto "${concepto}" añadido correctamente ✔`);
 
-    alert(`Gasto "${concepto}" añadido correctamente (mockup)`);
+    setConcepto("");
+    setGrupo("");
+    setCantidad("");
+
+    // lista base
+    const base = {};
+    participantesBase.forEach((p) => (base[p] = true));
+    setParticipantes(base);
+    setPagadoPor(participantesBase[0]);
   };
 
   return (
     <div>
-      {/* TÍTULO PRINCIPAL */}
       <h1 className="title">Añadir gasto</h1>
 
-      {/* CARD DEL FORMULARIO (igual que el mockup original) */}
       <form className="form card" onSubmit={handleSubmit}>
 
-
-        {/* Campo: concepto del gasto */}
         <label>Concepto</label>
         <input
           type="text"
@@ -78,16 +116,14 @@ export default function NuevoGasto() {
           onChange={(e) => setConcepto(e.target.value)}
         />
 
-        {/* Campo: concepto del gasto */}
         <label>Grupo</label>
         <input
           type="text"
           placeholder="Añadir a grupo"
-          value={concepto}
-          onChange={(e) => setConcepto(e.target.value)}
+          value={grupo}
+          onChange={(e) => setGrupo(e.target.value)}
         />
 
-        {/* Campo: cantidad en euros */}
         <label>Cantidad (€)</label>
         <input
           type="number"
@@ -97,20 +133,22 @@ export default function NuevoGasto() {
           onChange={(e) => setCantidad(e.target.value)}
         />
 
-        {/* Select: quién pagó */}
+        {/* PAGADO POR  */}
         <label>Pagado por</label>
-        <select value={pagadoPor} onChange={(e) => setPagadoPor(e.target.value)}>
-          {participantesIniciales.map((nom) => (
-            <option key={nom}>{nom}</option>
+        <select
+          value={pagadoPor}
+          onChange={(e) => setPagadoPor(e.target.value)}
+        >
+          {Object.keys(participantes).map((m) => (
+            <option key={m}>{m}</option>
           ))}
         </select>
 
-        {/* Checkboxes: participantes del gasto */}
+        {/* PARTICIPANTES */}
         <label>Participantes</label>
         <div className="chips">
-          {participantesIniciales.map((nombre) => (
+          {Object.keys(participantes).map((nombre) => (
             <label key={nombre}>
-              {/* Checkbox individual */}
               <input
                 type="checkbox"
                 checked={participantes[nombre]}
@@ -121,7 +159,6 @@ export default function NuevoGasto() {
           ))}
         </div>
 
-        {/* Botón principal */}
         <button className="btn primary" type="submit">
           Guardar gasto
         </button>
