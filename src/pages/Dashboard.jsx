@@ -1,11 +1,70 @@
-// Componente Dashboard: pantalla principal que ve el usuario al iniciar sesión
-// Aquí mostramos estadísticas, resúmenes de grupos y últimos gastos.
-
-import { useNavigate } from "react-router-dom"; // Hook para navegar a otra ruta manteniendo <button>
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Dashboard() {
   // Inicializamos navigate para poder redirigir al usuario al pulsar botones
   const navigate = useNavigate();
+
+  // Modal "Total gastado"
+  const [openTotalModal, setOpenTotalModal] = useState(false);
+
+  // Modal "Grupos activos"
+  const [openGroupsModal, setOpenGroupsModal] = useState(false);
+
+  // Modal "Balance (Debes recibir / pagar)"
+  const [openBalanceModal, setOpenBalanceModal] = useState(false);
+
+  const gastosResumen = [
+    { label: "Viaje a Barcelona", amount: 112.3 },
+    { label: "Piso compartido", amount: 95.2 },
+    { label: "Otros", amount: 40 },
+  ];
+
+  // Total gastado calculado a partir de los datos simulados
+  const totalGastado = gastosResumen.reduce((acc, item) => acc + item.amount, 0);
+
+  // Datos FAKE de grupos activos
+  const gruposActivos = [
+    {
+      id: 1,
+      name: "Viaje a Barcelona",
+      participants: 4,
+      lastExpense: "Cena restaurante (€45,00)",
+    },
+    {
+      id: 2,
+      name: "Piso compartido",
+      participants: 3,
+      lastExpense: "Supermercado (€67,80)",
+    },
+    {
+      id: 3,
+      name: "Cumpleaños Marta",
+      participants: 6,
+      lastExpense: "Cena pizza (€28,50)",
+    },
+  ];
+
+  //  DATOS FAKE DE BALANCE 
+  const peopleOweYou = [
+    { name: "Alex", amount: 22.6 },
+    { name: "Jesús", amount: 15.0 },
+    { name: "Marta", amount: 44.7 },
+  ];
+
+  const youOwePeople = [
+    { name: "Juan", amount: 12.5 },
+    { name: "Nicky", amount: 6.5 },
+  ];
+
+  const totalTeDeben = peopleOweYou.reduce((acc, p) => acc + p.amount, 0);
+  const totalDebes = youOwePeople.reduce((acc, p) => acc + p.amount, 0);
+
+  // Neto: positivo => recibes, negativo => pagas
+  const neto = totalTeDeben - totalDebes;
+
+  const balanceLabel = neto >= 0 ? "Debes recibir" : "Debes pagar";
+  const balanceValue = Math.abs(neto);
 
   return (
     <div>
@@ -14,21 +73,30 @@ export default function Dashboard() {
 
       <div className="stats">
         {/* Tarjeta 1: Total gastado */}
-        <div className="stat">
+        <div
+          className="stat stat--clickable"
+          onClick={() => setOpenTotalModal(true)}
+        >
           <div className="n">€247,50</div>
-          <div className="l">Total gastado</div> 
+          <div className="l">Total gastado</div>
         </div>
 
         {/* Tarjeta 2: Cantidad de grupos activos */}
-        <div className="stat">
+        <div
+          className="stat stat--clickable"
+          onClick={() => setOpenGroupsModal(true)}
+        >
           <div className="n">3</div>
           <div className="l">Grupos activos</div>
         </div>
 
-        {/* Tarjeta 3: Dinero que debe recibir el usuario */}
-        <div className="stat">
-          <div className="n">€82,30</div>
-          <div className="l">Debes recibir</div>
+        {/* Tarjeta 3: Dinero que debe recibir / pagar el usuario */}
+        <div
+          className={`stat stat--clickable ${neto >= 0 ? "stat--positive" : "stat--negative"}`}
+          onClick={() => setOpenBalanceModal(true)}
+        >
+          <div className="n">€{balanceValue.toFixed(2)}</div>
+          <div className="l">{balanceLabel}</div>
         </div>
       </div>
 
@@ -87,6 +155,169 @@ export default function Dashboard() {
           👥 Crear grupo
         </button>
       </div>
+
+      {/*   MODAL: RESUMEN TOTAL GASTADO  */}
+      {openTotalModal && (
+        <div className="modal-overlay" onClick={() => setOpenTotalModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setOpenTotalModal(false)}
+              aria-label="Cerrar"
+            >
+              ✕
+            </button>
+
+            <h2 className="modal-title">Resumen del gasto</h2>
+
+            {/* Datos FAKE  */}
+            <ul className="modal-list">
+              {gastosResumen.map((item) => (
+                <li key={item.label}>
+                  <span>{item.label}</span>
+                  <strong>€{item.amount.toFixed(2)}</strong>
+                </li>
+              ))}
+            </ul>
+
+            {/* Total calculado */}
+            <div className="modal-total" style={{ marginTop: 12 }}>
+              <strong>Total gastado:</strong>
+              <strong>€{totalGastado.toFixed(2)}</strong>
+            </div>
+
+            <p className="muted" style={{ marginTop: 12 }}></p>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: GRUPOS ACTIVOS */}
+      {openGroupsModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setOpenGroupsModal(false)}
+        >
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setOpenGroupsModal(false)}
+              aria-label="Cerrar"
+            >
+              ✕
+            </button>
+
+            <h2 className="modal-title">Grupos activos</h2>
+
+            {/* Datos FAKE  */}
+            <ul className="modal-list">
+              {gruposActivos.map((g) => (
+                <li key={g.id} className="modal-group-item">
+                  <div className="modal-group-content">
+                    <strong className="modal-group-name">{g.name}</strong>
+
+                    <div className="modal-group-meta">
+                      <span>{g.participants} participantes</span>
+                      <span>Último gasto: {g.lastExpense}</span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="modal-total-groups" style={{ marginTop: 12 }}>
+              <strong>Total grupos activos:</strong>
+              <strong>{gruposActivos.length}</strong>
+            </div>
+
+            <p className="muted" style={{ marginTop: 12 }}></p>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: BALANCE (Debes recibir / pagar) */}
+      {openBalanceModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setOpenBalanceModal(false)}
+        >
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setOpenBalanceModal(false)}
+              aria-label="Cerrar"
+            >
+              ✕
+            </button>
+
+            <h2 className="modal-title">Balance personal</h2>
+
+            {/* TE DEBEN */}
+            <div className="balance-section-title balance-section-title--positive">
+              <strong>Te deben</strong>
+            </div>
+
+            <ul className="modal-list">
+              {peopleOweYou.length === 0 ? (
+                <li>
+                  <span className="balance-empty">Nadie te debe dinero</span>
+                  <strong>€0.00</strong>
+                </li>
+              ) : (
+                peopleOweYou.map((p) => (
+                  <li key={`owed-${p.name}`}>
+                    <span>{p.name}</span>
+                    <strong>€{p.amount.toFixed(2)}</strong>
+                  </li>
+                ))
+              )}
+            </ul>
+
+            <div className="modal-total" style={{ marginTop: 12 }}>
+              <strong>Total te deben:</strong>
+              <strong>€{totalTeDeben.toFixed(2)}</strong>
+            </div>
+
+            {/* TÚ DEBES */}
+            <div className="balance-section-title balance-section-title--negative">
+              <strong>Tú debes</strong>
+            </div>
+
+            <ul className="modal-list">
+              {youOwePeople.length === 0 ? (
+                <li>
+                  <span className="balance-empty">No debes dinero a nadie</span>
+                  <strong>€0.00</strong>
+                </li>
+              ) : (
+                youOwePeople.map((p) => (
+                  <li key={`owe-${p.name}`}>
+                    <span>{p.name}</span>
+                    <strong>€{p.amount.toFixed(2)}</strong>
+                  </li>
+                ))
+              )}
+            </ul>
+
+            <div className="modal-total" style={{ marginTop: 12 }}>
+              <strong>Total debes:</strong>
+              <strong>€{totalDebes.toFixed(2)}</strong>
+            </div>
+
+            {/* NETO (verde si recibes / rojo si pagas) */}
+            <div
+              className={`modal-total modal-total--net ${
+                neto >= 0 ? "net--positive" : "net--negative"
+              }`}
+              style={{ marginTop: 16 }}
+            >
+              <strong>{neto >= 0 ? "Debes recibir:" : "Debes pagar:"}</strong>
+              <strong>€{Math.abs(neto).toFixed(2)}</strong>
+            </div>
+
+            <p className="muted" style={{ marginTop: 12 }}></p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
