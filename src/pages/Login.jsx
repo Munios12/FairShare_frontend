@@ -7,14 +7,16 @@ import { useNavigate } from "react-router-dom";
 // Importamos Auth
 import useAuth from "../hooks/useAuth";
 
+// Importamos servicio real de backend
+import { loginRequest } from "../services/authService";
+
 // Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";
 
 export default function Login() {
-  // Navegación
   const navigate = useNavigate();
 
-  // Auth
+  // AuthContext
   const { login } = useAuth();
 
   // Estados del formulario
@@ -22,17 +24,25 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Manejo del submit
-  function handleSubmit(e) {
+  // SUBMIT 
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
 
-    // Credenciales fake de desarrollo
-    if (email === "test@fairshare.com" && password === "1234") {
-      setError(""); // ✅ limpiamos error si venía de un intento anterior
-      login(email, password); // crea usuario en AuthContext
-      navigate("/dashboard", { replace: true }); // entra a la app
-    } else {
-      setError("Credenciales incorrectas");
+    try {
+      // 1) Enviar al backend
+      const response = await loginRequest({ email, password });
+
+      // El backend devuelve: { status, message, data: { token, user } }
+      const { token, user } = response.data;
+
+      // 2) Guardar en AuthContext
+      login(user, token);
+
+      // 3) Redirigir
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      setError(err.message || "Error al iniciar sesión");
     }
   }
 
@@ -59,10 +69,8 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* Mensaje de error */}
         {error && <p className="error">{error}</p>}
 
-        {/* ✅ importante: submit */}
         <button className="btn primary" type="submit">
           Iniciar sesión
         </button>

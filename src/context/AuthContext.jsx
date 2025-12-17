@@ -1,73 +1,72 @@
-//  IMPORTS
+// IMPORTS
 import { createContext, useEffect, useState } from "react";
 
 // CONTEXTO DE AUTENTICACIÓN
 export const AuthContext = createContext(null);
 
-// Clave de LocalStorage donde guardamos la sesión
+// Claves de LocalStorage
 const LS_USER_KEY = "fairshare_user";
+const LS_TOKEN_KEY = "fairshare_token";
 
-// PROVIDER: ENVUELVE A TODA LA APLICACIÓN
+// PROVIDER
 export default function AuthProvider({ children }) {
-
-  // Estado del usuario autenticado.
+  // Estado inicial cargado desde localStorage
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem(LS_USER_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch (e) {
-      // Si el JSON estuviera corrupto o falla algo, empezamos sin sesión.
+      const savedUser = localStorage.getItem(LS_USER_KEY);
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
       return null;
     }
   });
 
-  // Cada vez que cambie "user", lo persistimos (o lo borramos si es null)
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem(LS_USER_KEY, JSON.stringify(user));
-    } else {
-      localStorage.removeItem(LS_USER_KEY);
+  const [token, setToken] = useState(() => {
+    try {
+      return localStorage.getItem(LS_TOKEN_KEY) || null;
+    } catch {
+      return null;
     }
+  });
+
+  // Persistencia automática
+  useEffect(() => {
+    if (user) localStorage.setItem(LS_USER_KEY, JSON.stringify(user));
+    else localStorage.removeItem(LS_USER_KEY);
   }, [user]);
 
-  // ---- LOGIN SIMULADO ----
-  function login(email, password) {
-    // De momento devolvemos un usuario fijo.
-    const fakeUser = {
-      id: 1,
-      name: "Luismi Herraz",
-      email,
-      avatarColor: "teal",
-    };
+  useEffect(() => {
+    if (token) localStorage.setItem(LS_TOKEN_KEY, token);
+    else localStorage.removeItem(LS_TOKEN_KEY);
+  }, [token]);
 
-    setUser(fakeUser);
+  // LOGIN — RECIBE user + token DESDE EL BACKEND
+  function login(userData, authToken) {
+    setUser(userData);
+    setToken(authToken);
   }
 
-  // ---- REGISTRO SIMULADO ----
-  function register(name, email, password) {
-    // Simulación de registro real.
-    const newUser = {
-      id: Date.now(), // ID simulado
-      name,
-      email,
-      avatarColor: "teal",
-    };
-
-    setUser(newUser);
+  // REGISTER
+  function register(userData, authToken = null) {
+    setUser(userData);
+    setToken(authToken);
   }
 
+  // ACTUALIZAR USER 
   function updateUser(patch) {
     setUser((prev) => (prev ? { ...prev, ...patch } : prev));
   }
 
-  // ---- LOGOUT ----
+  // LOGOUT 
   function logout() {
-    setUser(null); // Limpiamos al usuario => vuelve al estado sin sesión
+    setUser(null);
+    setToken(null);
   }
 
-  // PROVEER VALORES A TODA LA APP
+  // VALORES EXPORTADOS
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateUser }}>
+    <AuthContext.Provider
+      value={{ user, token, login, register, logout, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

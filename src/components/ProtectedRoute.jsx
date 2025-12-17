@@ -3,10 +3,13 @@ import useAuth from "../hooks/useAuth";
 
 export default function ProtectedRoute() {
   const { user } = useAuth();
+  const token = localStorage.getItem("fairshare_token"); // ← nuevo
 
-  // Si no hay sesión → fuera al login y reemplaza historial (no vuelve con "atrás")
-  if (!user) return <Navigate to="/" replace />;
+  // Si no hay token o no hay usuario → no permitir acceso
+  if (!token || !user) {
+    return <Navigate to="/" replace />;
+  }
 
-  // Si hay sesión → renderiza las rutas hijas protegidas
+  // Si existe user + token → permitir acceso
   return <Outlet />;
 }

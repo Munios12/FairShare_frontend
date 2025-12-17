@@ -1,18 +1,50 @@
 import { API_URL } from "./api";
 
-export async function login(data) {
-  // Más adelante: lógica real backend
-  return fetch(`${API_URL}/auth/login`, {
+// LOGIN
+export async function loginRequest(data) {
+  const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.message || "Error al iniciar sesión");
+  }
+
+  return json; // { token, user }
 }
 
-export async function register(data) {
-  return fetch(`${API_URL}/auth/register`, {
+// REGISTER
+export async function registerRequest(data) {
+  const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.message || "Error al registrarse");
+  }
+
+  return json; // { user }
+}
+
+// GET USER FROM TOKEN
+export async function getMeRequest(token) {
+  const res = await fetch(`${API_URL}/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.message || "Token inválido");
+  }
+
+  return json; // { user }
 }
