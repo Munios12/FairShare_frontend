@@ -27,7 +27,7 @@ export default function Register() {
     try {
       
       const { user } = await registerRequest({
-        nombre_usuario: name,
+        name,
         email,
         password,
       });

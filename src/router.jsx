@@ -12,6 +12,7 @@ import Balance from "./pages/Balance";
 import Configuracion from "./pages/Configuracion";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import GroupDetail from "./pages/GroupDetail";
 
 export default function Router() {
   return (
@@ -30,6 +31,8 @@ export default function Router() {
             <Route path="/nuevo-gasto" element={<NuevoGasto />} />
             <Route path="/balance" element={<Balance />} />
             <Route path="/config" element={<Configuracion />} />
+            <Route path="/grupos" element={<Grupos />} />
+            <Route path="/grupos/:id" element={<GroupDetail />} />
           </Route>
         </Route>
       </Routes>

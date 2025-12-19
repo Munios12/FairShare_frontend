@@ -30,16 +30,13 @@ export default function Login() {
     setError("");
 
     try {
-      // 1) Enviar al backend
-      const response = await loginRequest({ email, password });
+      // El backend devuelve { token, user } 
+      const { token, user } = await loginRequest({ email, password });
 
-      // El backend devuelve: { status, message, data: { token, user } }
-      const { token, user } = response.data;
-
-      // 2) Guardar en AuthContext
+      // Guardar token + user
       login(user, token);
 
-      // 3) Redirigir
+      // Redirigir
       navigate("/dashboard", { replace: true });
     } catch (err) {
       setError(err.message || "Error al iniciar sesión");

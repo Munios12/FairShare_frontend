@@ -104,7 +104,7 @@ export default function NuevoGasto() {
 
   return (
     <div>
-      <h1 className="title">Añadir gasto</h1>
+      <h1 className="title">Añadir gasto personal</h1>
 
       <form className="form card" onSubmit={handleSubmit}>
 

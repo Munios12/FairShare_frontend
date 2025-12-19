@@ -11,7 +11,7 @@ export default function Balance() {
   return (
     <div>
       {/* Título principal de la página */}
-      <h1 className="title">Balance general</h1>
+      <h1 className="title">Balance personal</h1>
 
       {/* Contenedor principal tipo tarjeta  */}
       <div className="card padded">

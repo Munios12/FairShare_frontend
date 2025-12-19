@@ -10,37 +10,33 @@ import useAuth from "../hooks/useAuth";
 // Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";
 
+// Importamos el servicio para actualizar el avatar
+import { updateAvatarRequest } from "../services/authService";
+
 // Componente Header: barra superior fija en toda la aplicación
 export default function Header() {
-  // Hook para navegar por rutas
   const navigate = useNavigate();
+  const { user, token, logout, updateUser } = useAuth();
+  console.log("HEADER → TOKEN ACTUAL:", token);
 
-  // Auth
-  const { user, logout, updateUser } = useAuth();
-
-  // Dropdown usuario
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
-  // Nombre/email/rol (si no hay user, placeholders)
-  const userName = user?.name || "Invitado";
+  const userName = user?.nombre_usuario || "Invitado";
   const userEmail = user?.email || "—";
-  const userRole = user?.role || "user"; // backend en el futuro: "admin" | "user"
+  const userRole = user?.role || "user";
 
-  // Iniciales dinámicas desde el nombre
-  const initials = user?.name
-    ? user.name
+  const initials = user?.nombre_usuario
+    ? user.nombre_usuario
         .trim()
-        .split(/\s+/)              // separa por espacios
+        .split(/\s+/)
         .filter(Boolean)
-        .slice(0, 2)               // máximo 2 palabras → 2 iniciales
+        .slice(0, 2)
         .map((w) => w[0].toUpperCase())
         .join("")
     : "FS";
 
-  // Color del avatar DESDE el usuario (persistente)
-  const avatarColor = user?.avatarColor || "teal";
+  const avatarColor = user?.avatar_color || "teal";
 
-  // Colores disponibles
   const colorOptions = [
     { id: "teal", label: "Turquesa" },
     { id: "blue", label: "Azul" },
@@ -50,10 +46,8 @@ export default function Header() {
     { id: "red", label: "Rojo" },
   ];
 
-  // Ref para detectar click fuera
   const userMenuRef = useRef(null);
 
-  // Cerrar menú al hacer click fuera
   useEffect(() => {
     function handleClickOutside(e) {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
@@ -64,7 +58,6 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Cerrar menú con Escape
   useEffect(() => {
     function handleEscape(e) {
       if (e.key === "Escape") setOpenUserMenu(false);
@@ -73,24 +66,35 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
-  // Cerrar sesión
   function handleLogout() {
     logout();
     setOpenUserMenu(false);
     navigate("/", { replace: true });
   }
 
+  // Cambio de color 
+  async function handleAvatarChange(color) {
+    try {
+      console.log("🎨 Intentando cambiar color a:", color);
+      console.log("🎫 Token que se enviará:", token); 
+      
+      const res = await updateAvatarRequest(token, color);
+      if (res && res.user) {
+        updateUser(res.user);
+      }
+    } catch (err) {
+      console.error("❌ Error al actualizar avatar:", err.message);
+    }
+  }
+
   return (
     <header className="header">
-      {/* === BRAND: LOGO + NOMBRE === */}
       <div className="brand">
         <img src={logo} alt="FairShare logo" className="brand-logo" />
         <span className="logo-text">FairShare</span>
       </div>
 
-      {/* === ZONA DERECHA: usuario + ajustes === */}
       <div className="header-right">
-        {/* Usuario con desplegable */}
         <div className="user-menu" ref={userMenuRef}>
           <button
             type="button"
@@ -99,29 +103,19 @@ export default function Header() {
             aria-haspopup="menu"
             aria-expanded={openUserMenu}
           >
-            {/* Avatar con iniciales dinámicas + color persistente */}
             <div className={`avatar avatar--${avatarColor}`}>{initials}</div>
             <span className="user-name">{userName}</span>
           </button>
 
           {openUserMenu && (
             <div className="user-dropdown" role="menu">
-              {/* Nombre */}
               <div className="user-dropdown-name">{userName}</div>
-
-              {/* Email debajo del nombre */}
               <div className="user-dropdown-email">{userEmail}</div>
-
-              {/* Rol visible  */}
-              {/* Rol visible */}
               <div className={`user-dropdown-role ${userRole}`}>
                 {userRole}
               </div>
 
               <div className="user-dropdown-sep" />
-
-
-              {/* Selector de color */}
               <div className="user-dropdown-label">Color del avatar</div>
 
               <div className="color-grid">
@@ -132,7 +126,7 @@ export default function Header() {
                     className={`color-pick color-pick--${c.id} ${
                       avatarColor === c.id ? "active" : ""
                     }`}
-                    onClick={() => updateUser({ avatarColor: c.id })}
+                    onClick={() => handleAvatarChange(c.id)}
                     title={c.label}
                     aria-label={`Color ${c.label}`}
                   />
@@ -152,7 +146,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* Botón de ajustes */}
         <button className="btn ghost" onClick={() => navigate("/config")}>
           ⚙️ Ajustes
         </button>

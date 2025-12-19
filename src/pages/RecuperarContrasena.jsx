@@ -10,13 +10,6 @@ export default function RecuperarContrasena() {
       <div className="form">
         <label>Correo electrónico</label>
         <input type="email" placeholder="usuario@email.com" />
-
-        <label>Nueva contraseña</label>
-        <input type="password" placeholder="••••••••" />
-
-        <label>Repite contraseña</label>
-        <input type="password" placeholder="••••••••" />
-
         <button className="btn primary">Crear nueva contraseña</button>
 
         <p className="muted" style={{ marginTop: 8 }}>

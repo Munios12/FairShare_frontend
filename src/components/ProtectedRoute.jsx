@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 
 export default function ProtectedRoute() {
   const { user } = useAuth();
-  const token = localStorage.getItem("fairshare_token"); // ← nuevo
+  const token = localStorage.getItem("fairshare_token"); 
 
   // Si no hay token o no hay usuario → no permitir acceso
   if (!token || !user) {

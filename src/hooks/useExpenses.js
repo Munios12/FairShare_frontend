@@ -1,6 +1,3 @@
-// Hook personalizado para acceder al contexto de gastos
-// Garantiza que nunca se use fuera de un <ExpensesProvider>
-
 import { useContext } from "react";
 import { ExpensesContext } from "../context/ExpensesContext";
 

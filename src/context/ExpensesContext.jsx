@@ -6,14 +6,12 @@ import { createContext, useState } from "react";
 export const ExpensesContext = createContext(null);
 
 // PROVIDER DEL CONTEXTO
-// Envolverá la parte de la App que necesita acceder a los gastos.
-// Usa export default para estandarizar los Providers.
 export default function ExpensesProvider({ children }) {
 
   // Estado interno: lista de gastos del grupo activo
   const [expenses, setExpenses] = useState([]);
 
-  // FUNCIONES SIMULADAS 
+
   //  Cargar gastos del grupo
   function loadExpenses(groupId) {
     const fakeData = [

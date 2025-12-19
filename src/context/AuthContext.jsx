@@ -43,8 +43,9 @@ export default function AuthProvider({ children }) {
   function login(userData, authToken) {
     setUser(userData);
     setToken(authToken);
+   console.log("LOGIN → TOKEN GUARDADO:", authToken);
   }
-
+ 
   // REGISTER
   function register(userData, authToken = null) {
     setUser(userData);
