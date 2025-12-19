@@ -57,13 +57,20 @@ export default function GroupDetail() {
     setSelectedExpense(null);
   }
 
-  function handleExpenseClick(expense) {  
-    // Añadir grupo_id al expense antes de pasarlo
+  function handleExpenseClick(expense) {
+    console.log("💰 Gasto clickeado:", expense);
+    console.log("📍 ID del grupo actual:", id);
+    
+    // ✅ Añadir grupo_id al expense antes de pasarlo
     const expenseWithGroupId = {
-    ...expense,
-    grupo_id: parseInt(id)  
+      ...expense,
+      grupo_id: parseInt(id)
     };
-    setSelectedExpense(expense);
+    
+    console.log("✅ Gasto con grupo_id:", expenseWithGroupId);
+    
+    // ✅ CORRECCIÓN: Pasar expenseWithGroupId
+    setSelectedExpense(expenseWithGroupId);
     setShowExpenseActionsModal(true);
   }
 
@@ -122,7 +129,7 @@ export default function GroupDetail() {
             className="btn btn-danger"
             onClick={() => setShowDeleteModal(true)}
           >
-            Eliminar grupo
+             Eliminar grupo
           </button>
         )}
       </div>
@@ -226,7 +233,7 @@ export default function GroupDetail() {
         onExpenseAdded={handleExpenseAdded}
       />
 
-      {/* Modal de acciones de gasto */}
+      {/* ✅ Modal de acciones de gasto */}
       <ExpenseActionsModal
         expense={selectedExpense}
         isOpen={showExpenseActionsModal}

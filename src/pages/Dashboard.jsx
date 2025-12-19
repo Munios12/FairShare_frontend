@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Home, TrendingUp, Users, Wallet, CreditCard } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import { getDashboardDataRequest } from "../services/dashboardService";
 
@@ -37,6 +38,14 @@ export default function Dashboard() {
     }
   }
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "short",
+    });
+  }
+
   if (loading) {
     return (
       <div className="page-container">
@@ -66,102 +75,220 @@ export default function Dashboard() {
     );
   }
 
-  const { total_gastado, grupos_activos, balance, grupos, gastos_recientes } = dashboardData;
+  const {
+    total_gastado,
+    total_gastado_grupos,
+    total_gastado_personal,
+    grupos_activos,
+    balance,
+    grupos,
+    gastos_recientes,
+  } = dashboardData;
 
   const balanceLabel = balance.neto >= 0 ? "Debes recibir" : "Debes pagar";
   const balanceValue = Math.abs(balance.neto);
 
   return (
-    <div>
-      {/* TÍTULO PRINCIPAL */}
-      <h1 className="title">Bienvenido {user?.nombre_usuario}</h1>
+    <div className="page-container">
+      {/* Header */}
+      <div className="dashboard-header">
+        <div className="dashboard-welcome">
+          <Home className="dashboard-icon" size={32} />
+          <div>
+            <h1 className="title">¡Hola, {user?.nombre_usuario}! 👋</h1>
+            <p className="subtitle">Aquí tienes un resumen de tu actividad</p>
+          </div>
+        </div>
+      </div>
 
-      <div className="stats">
-        {/* Tarjeta 1: Total gastado */}
+      {/* Stats Cards */}
+      <div className="stats-grid">
+        {/* Total gastado */}
         <div
-          className="stat stat--clickable"
+          className="stat-card stat-card-clickable"
           onClick={() => setOpenTotalModal(true)}
         >
-          <div className="n">€{total_gastado.toFixed(2)}</div>
-          <div className="l">Total gastado</div>
+          <div className="stat-card-icon stat-card-icon-primary">
+            <TrendingUp size={24} />
+          </div>
+          <div className="stat-card-content">
+            <div className="stat-card-label">Total gastado</div>
+            <div className="stat-card-value">€{total_gastado.toFixed(2)}</div>
+          </div>
         </div>
 
-        {/* Tarjeta 2: Grupos activos */}
+        {/* Grupos activos */}
         <div
-          className="stat stat--clickable"
+          className="stat-card stat-card-clickable"
           onClick={() => setOpenGroupsModal(true)}
         >
-          <div className="n">{grupos_activos}</div>
-          <div className="l">Grupos activos</div>
+          <div className="stat-card-icon stat-card-icon-info">
+            <Users size={24} />
+          </div>
+          <div className="stat-card-content">
+            <div className="stat-card-label">Grupos activos</div>
+            <div className="stat-card-value">{grupos_activos}</div>
+          </div>
         </div>
 
-        {/* Tarjeta 3: Balance */}
+        {/* Balance */}
         <div
-          className={`stat stat--clickable ${
-            balance.neto >= 0 ? "stat--positive" : "stat--negative"
+          className={`stat-card stat-card-clickable ${
+            balance.neto >= 0 ? "stat-card-positive" : "stat-card-negative"
           }`}
           onClick={() => setOpenBalanceModal(true)}
         >
-          <div className="n">€{balanceValue.toFixed(2)}</div>
-          <div className="l">{balanceLabel}</div>
-        </div>
-      </div>
-
-      <div className="grid">
-        {/* Cards de grupos (primeros 2) */}
-        {grupos.slice(0, 2).map((grupo) => (
           <div
-            key={grupo.id}
-            className="card card--clickable"
-            onClick={() => navigate(`/grupos/${grupo.id}`)}
+            className={`stat-card-icon ${
+              balance.neto >= 0 ? "stat-card-icon-success" : "stat-card-icon-danger"
+            }`}
           >
-            <div className="card-title">Grupo: {grupo.nombre_grupo}</div>
-            <p className="muted">
-              {grupo.last_expense ? (
-                <>
-                  Último gasto: {grupo.last_expense.descripcion} (€
-                  {grupo.last_expense.cantidad.toFixed(2)})
-                </>
-              ) : (
-                "Sin gastos aún"
-              )}
-              <br />
-              Participantes: {grupo.members_count}{" "}
-              {grupo.members_count === 1 ? "persona" : "personas"}
-            </p>
+            <Wallet size={24} />
           </div>
-        ))}
-
-        {/* Card de gastos recientes */}
-        <div className="card">
-          <div className="card-title">Gastos recientes</div>
-          <ul className="list">
-            {gastos_recientes.length > 0 ? (
-              gastos_recientes.slice(0, 3).map((gasto) => (
-                <li key={gasto.id}>
-                  {gasto.descripcion} — €{gasto.cantidad_total.toFixed(2)}
-                </li>
-              ))
-            ) : (
-              <li>No hay gastos recientes</li>
-            )}
-          </ul>
+          <div className="stat-card-content">
+            <div className="stat-card-label">{balanceLabel}</div>
+            <div className="stat-card-value">€{balanceValue.toFixed(2)}</div>
+          </div>
         </div>
       </div>
 
-      <div className="actions">
-        <button className="btn primary" onClick={() => navigate("/nuevo-gasto")}>
-          ➕ Añadir nuevo gasto
+      {/* Grid principal */}
+      <div className="dashboard-grid">
+        {/* Grupos destacados */}
+        {grupos.length > 0 ? (
+          grupos.slice(0, 2).map((grupo) => (
+            <div
+              key={grupo.id}
+              className="card card-hover"
+              onClick={() => navigate(`/grupos/${grupo.id}`)}
+            >
+              <div className="card-header">
+                <h2 className="card-title">
+                  <Users size={20} />
+                  {grupo.nombre_grupo}
+                </h2>
+              </div>
+              <div className="card-content">
+                <div className="group-info">
+                  <div className="group-stat">
+                    <span className="group-stat-label">Participantes</span>
+                    <span className="group-stat-value">{grupo.members_count}</span>
+                  </div>
+                  {grupo.last_expense && (
+                    <div className="group-last-expense">
+                      <div className="group-last-expense-label">Último gasto</div>
+                      <div className="group-last-expense-content">
+                        <span>{grupo.last_expense.descripcion}</span>
+                        <span className="group-last-expense-amount">
+                          €{grupo.last_expense.cantidad.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="card">
+            <div className="empty-state">
+              <Users size={48} className="empty-icon" />
+              <p>No tienes grupos aún</p>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/grupos")}
+              >
+                Crear grupo
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Gastos recientes */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="card-title">💰 Gastos recientes</h2>
+          </div>
+
+          {gastos_recientes && gastos_recientes.length > 0 ? (
+            <div className="expenses-list-dashboard">
+              {gastos_recientes.slice(0, 5).map((expense) => (
+                <div
+                  key={expense.id}
+                  className={`expense-item-dashboard ${
+                    expense.es_personal
+                      ? "expense-item-personal"
+                      : "expense-item-group"
+                  }`}
+                >
+                  {/* Badge de tipo */}
+                  <div
+                    className={`expense-badge ${
+                      expense.es_personal ? "expense-badge-personal" : "expense-badge-group"
+                    }`}
+                  >
+                    {expense.es_personal ? (
+                      <>
+                        <CreditCard size={14} />
+                        <span>Personal</span>
+                      </>
+                    ) : (
+                      <>
+                        <Users size={14} />
+                        <span>Grupo</span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Información del gasto */}
+                  <div className="expense-content">
+                    <div className="expense-description">{expense.descripcion}</div>
+                    <div className="expense-meta">
+                      {expense.es_personal ? (
+                        <span className="expense-meta-text">
+                          {formatDate(expense.fecha_gasto)}
+                        </span>
+                      ) : (
+                        <span className="expense-meta-text">
+                          {expense.grupo_nombre} • {formatDate(expense.fecha_gasto)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Cantidad */}
+                  <div className="expense-amount">
+                    {expense.cantidad_total.toFixed(2)} {expense.moneda || "EUR"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <Wallet size={48} className="empty-icon" />
+              <p>No hay gastos recientes</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Acciones rápidas */}
+      <div className="actions-section">
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/gastos-personales")}
+        >
+          💳 Añadir gasto personal
         </button>
-        <button className="btn primary" onClick={() => navigate("/grupos")}>
-          👥 Ver grupos
+        <button className="btn btn-secondary" onClick={() => navigate("/grupos")}>
+          👥 Ver todos los grupos
         </button>
       </div>
 
       {/* MODAL: TOTAL GASTADO */}
       {openTotalModal && (
         <div className="modal-overlay" onClick={() => setOpenTotalModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close"
               onClick={() => setOpenTotalModal(false)}
@@ -169,23 +296,43 @@ export default function Dashboard() {
               ✕
             </button>
 
-            <h2 className="modal-title">Resumen del gasto</h2>
+            <h2 className="modal-title">💰 Resumen del gasto</h2>
 
-            <ul className="modal-list">
-              {grupos.map((grupo) => (
-                <li key={grupo.id}>
-                  <span>{grupo.nombre_grupo}</span>
-                  <strong>
-                    €
-                    {grupo.last_expense
-                      ? grupo.last_expense.cantidad.toFixed(2)
-                      : "0.00"}
-                  </strong>
-                </li>
-              ))}
-            </ul>
+            <div className="modal-stats">
+              <div className="modal-stat-item">
+                <span className="modal-stat-label">Gastos en grupos</span>
+                <span className="modal-stat-value">
+                  €{total_gastado_grupos.toFixed(2)}
+                </span>
+              </div>
+              <div className="modal-stat-item">
+                <span className="modal-stat-label">Gastos personales</span>
+                <span className="modal-stat-value">
+                  €{total_gastado_personal.toFixed(2)}
+                </span>
+              </div>
+            </div>
 
-            <div className="modal-total" style={{ marginTop: 12 }}>
+            {grupos.length > 0 && (
+              <>
+                <h3 className="modal-subtitle">Por grupo</h3>
+                <ul className="modal-list">
+                  {grupos.map((grupo) => (
+                    <li key={grupo.id}>
+                      <span>{grupo.nombre_grupo}</span>
+                      <strong>
+                        €
+                        {grupo.last_expense
+                          ? grupo.last_expense.cantidad.toFixed(2)
+                          : "0.00"}
+                      </strong>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            <div className="modal-total">
               <strong>Total gastado:</strong>
               <strong>€{total_gastado.toFixed(2)}</strong>
             </div>
@@ -196,7 +343,7 @@ export default function Dashboard() {
       {/* MODAL: GRUPOS ACTIVOS */}
       {openGroupsModal && (
         <div className="modal-overlay" onClick={() => setOpenGroupsModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close"
               onClick={() => setOpenGroupsModal(false)}
@@ -204,37 +351,42 @@ export default function Dashboard() {
               ✕
             </button>
 
-            <h2 className="modal-title">Grupos activos</h2>
+            <h2 className="modal-title">👥 Grupos activos</h2>
 
-            <ul className="modal-list">
-              {grupos.map((g) => (
-                <li
-                  key={g.id}
-                  className="modal-group-item"
-                  onClick={() => {
-                    setOpenGroupsModal(false);
-                    navigate(`/grupos/${g.id}`);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="modal-group-content">
-                    <strong className="modal-group-name">{g.nombre_grupo}</strong>
-                    <div className="modal-group-meta">
-                      <span>{g.members_count} participantes</span>
-                      {g.last_expense && (
-                        <span>
-                          Último gasto: {g.last_expense.descripcion} (€
-                          {g.last_expense.cantidad.toFixed(2)})
-                        </span>
-                      )}
+            {grupos.length > 0 ? (
+              <ul className="modal-list">
+                {grupos.map((g) => (
+                  <li
+                    key={g.id}
+                    className="modal-group-item"
+                    onClick={() => {
+                      setOpenGroupsModal(false);
+                      navigate(`/grupos/${g.id}`);
+                    }}
+                  >
+                    <div className="modal-group-content">
+                      <strong className="modal-group-name">{g.nombre_grupo}</strong>
+                      <div className="modal-group-meta">
+                        <span>{g.members_count} participantes</span>
+                        {g.last_expense && (
+                          <span>
+                            Último: {g.last_expense.descripcion} (€
+                            {g.last_expense.cantidad.toFixed(2)})
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="empty-state">
+                <p>No tienes grupos activos</p>
+              </div>
+            )}
 
-            <div className="modal-total-groups" style={{ marginTop: 12 }}>
-              <strong>Total grupos activos:</strong>
+            <div className="modal-total">
+              <strong>Total grupos:</strong>
               <strong>{grupos_activos}</strong>
             </div>
           </div>
@@ -244,7 +396,7 @@ export default function Dashboard() {
       {/* MODAL: BALANCE */}
       {openBalanceModal && (
         <div className="modal-overlay" onClick={() => setOpenBalanceModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close"
               onClick={() => setOpenBalanceModal(false)}
@@ -252,39 +404,42 @@ export default function Dashboard() {
               ✕
             </button>
 
-            <h2 className="modal-title">Balance personal</h2>
+            <h2 className="modal-title">💼 Balance personal</h2>
 
-            {/* TE DEBEN */}
-            <div className="balance-section-title balance-section-title--positive">
-              <strong>Te deben</strong>
-            </div>
+            <div className="balance-sections">
+              {/* TE DEBEN */}
+              <div className="balance-section balance-section-positive">
+                <div className="balance-section-header">
+                  <strong>Te deben</strong>
+                </div>
+                <div className="balance-section-amount">
+                  €{balance.te_deben.toFixed(2)}
+                </div>
+              </div>
 
-            <div className="modal-total" style={{ marginTop: 12 }}>
-              <strong>Total te deben:</strong>
-              <strong>€{balance.te_deben.toFixed(2)}</strong>
-            </div>
-
-            {/* TÚ DEBES */}
-            <div className="balance-section-title balance-section-title--negative">
-              <strong>Tú debes</strong>
-            </div>
-
-            <div className="modal-total" style={{ marginTop: 12 }}>
-              <strong>Total debes:</strong>
-              <strong>€{balance.debes.toFixed(2)}</strong>
+              {/* TÚ DEBES */}
+              <div className="balance-section balance-section-negative">
+                <div className="balance-section-header">
+                  <strong>Tú debes</strong>
+                </div>
+                <div className="balance-section-amount">
+                  €{balance.debes.toFixed(2)}
+                </div>
+              </div>
             </div>
 
             {/* NETO */}
             <div
-              className={`modal-total modal-total--net ${
-                balance.neto >= 0 ? "net--positive" : "net--negative"
+              className={`modal-total modal-total-balance ${
+                balance.neto >= 0 ? "balance-positive" : "balance-negative"
               }`}
-              style={{ marginTop: 16 }}
             >
               <strong>
                 {balance.neto >= 0 ? "Debes recibir:" : "Debes pagar:"}
               </strong>
-              <strong>€{Math.abs(balance.neto).toFixed(2)}</strong>
+              <strong className="balance-neto-value">
+                €{Math.abs(balance.neto).toFixed(2)}
+              </strong>
             </div>
           </div>
         </div>

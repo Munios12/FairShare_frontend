@@ -1856,6 +1856,675 @@ select:disabled {
   width: 100%;
   justify-content: center;
 }
+
+/* ========================================
+   GASTOS PERSONALES - PÁGINA
+   ======================================== */
+
+/* Total card */
+.personal-total-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+}
+
+.personal-total-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.personal-total-amount {
+  font-size: 3rem;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Formulario de gastos personales */
+.personal-expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Grid de gastos personales */
+.personal-expenses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Card de gasto personal */
+.personal-expense-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.personal-expense-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+.personal-expense-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.personal-expense-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.personal-expense-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.btn-icon-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #dc2626;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-danger:hover {
+  background: #dc2626;
+  color: white;
+  transform: scale(1.1);
+}
+
+.personal-expense-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.personal-expense-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ========================================
+   DASHBOARD - MEJORAS
+   ======================================== */
+
+/* Header del dashboard */
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-welcome {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-icon {
+  color: #14b8a6;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Stat Card */
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card-clickable {
+  cursor: pointer;
+}
+
+.stat-card-clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-card-icon-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.stat-card-icon-info {
+  background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+  color: white;
+}
+
+.stat-card-icon-success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.stat-card-icon-danger {
+  background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+  color: white;
+}
+
+.stat-card-content {
+  flex: 1;
+}
+
+.stat-card-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.stat-card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-card-positive {
+  border-left: 4px solid #10b981;
+}
+
+.stat-card-negative {
+  border-left: 4px solid #ef4444;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Group Card Info */
+.group-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.group-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.group-stat-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.group-stat-value {
+  color: #111827;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.group-last-expense {
+  padding: 0.75rem;
+  background: #f0fdf4;
+  border-radius: 8px;
+  border-left: 3px solid #10b981;
+}
+
+.group-last-expense-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.group-last-expense-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.group-last-expense-amount {
+  font-weight: 700;
+  color: #10b981;
+  white-space: nowrap;
+}
+
+/* ========================================
+   GASTOS RECIENTES - DASHBOARD
+   ======================================== */
+
+.expenses-list-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.expense-item-dashboard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gastos de grupo - Verde suave */
+.expense-item-group {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-left: 4px solid #10b981;
+}
+
+/* Gastos personales - Azul suave */
+.expense-item-personal {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-left: 4px solid #3b82f6;
+}
+
+.expense-item-dashboard:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge de tipo de gasto */
+.expense-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.expense-badge-group {
+  background: #10b981;
+  color: white;
+}
+
+.expense-badge-personal {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Contenido del gasto */
+.expense-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.expense-description {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.expense-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.expense-meta-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.expense-amount {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   ACCIONES RÁPIDAS
+   ======================================== */
+
+.actions-section {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions-section .btn {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ========================================
+   MODALES - MEJORAS
+   ======================================== */
+
+.modal-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.modal-stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.modal-stat-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.modal-stat-value {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.modal-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.modal-list li:hover {
+  background: #f3f4f6;
+}
+
+.modal-group-item {
+  cursor: pointer;
+  padding: 1rem !important;
+  background: #f9fafb !important;
+  border-radius: 10px !important;
+  transition: all 0.2s !important;
+  border-left: 3px solid #14b8a6;
+}
+
+.modal-group-item:hover {
+  background: #f3f4f6 !important;
+  transform: translateX(4px);
+}
+
+.modal-group-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-group-name {
+  font-size: 1.125rem;
+  color: #111827;
+}
+
+.modal-group-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.modal-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* Balance sections */
+.balance-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 640px) {
+  .balance-sections {
+    grid-template-columns: 1fr;
+  }
+}
+
+.balance-section {
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.balance-section-positive {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  border: 2px solid #10b981;
+}
+
+.balance-section-negative {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 2px solid #ef4444;
+}
+
+.balance-section-header {
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balance-section-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.modal-total-balance {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.balance-positive .balance-neto-value {
+  color: #d1fae5;
+}
+
+.balance-negative .balance-neto-value {
+  color: #fee2e2;
+}
+
+/* ========================================
+   ICONOS Y ESTADOS
+   ======================================== */
+
+.page-icon {
+  color: #14b8a6;
+}
+
+.empty-icon {
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .personal-total-amount {
+    font-size: 2.5rem;
+  }
+
+  .stat-card-value {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-section .btn {
+    min-width: 100%;
+  }
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.personal-expense-card,
+.expense-item-dashboard,
+.stat-card {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* ========================================
+   UTILIDADES ADICIONALES
+   ======================================== */
+
+.page-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.card-hover {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
 /* === FOOTER === */
 .footer {
   display: flex;
