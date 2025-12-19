@@ -1,6 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Home, TrendingUp, Users, Wallet, CreditCard, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import {
+  Home,
+  TrendingUp,
+  Users,
+  Wallet,
+  CreditCard,
+  ArrowUpRight,
+  ArrowDownRight,
+} from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import { getDashboardDataRequest } from "../services/dashboardService";
 import { getBalanceGeneralRequest } from "../services/balanceService";
@@ -67,9 +75,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div className="page-container">
-        <div className="alert alert-error">
-          ❌ {error}
-        </div>
+        <div className="alert alert-error">❌ {error}</div>
       </div>
     );
   }
@@ -91,11 +97,7 @@ export default function Dashboard() {
     gastos_recientes,
   } = dashboardData;
 
-  const {
-    total_debes_recibir,
-    total_debes_pagar,
-    balance_neto,
-  } = balanceData;
+  const { total_debes_recibir, total_debes_pagar, balance_neto } = balanceData;
 
   const balanceLabel = balance_neto >= 0 ? "Debes recibir" : "Debes pagar";
   const balanceValue = Math.abs(balance_neto);
@@ -127,8 +129,8 @@ export default function Dashboard() {
             <div className="stat-card-label">Total gastado</div>
             <div className="stat-card-value">€{total_gastado.toFixed(2)}</div>
             <div className="stat-card-detail">
-              Personal: €{total_gastado_personal.toFixed(2)} • 
-              Grupos: €{total_gastado_grupos.toFixed(2)}
+              Personal: €{total_gastado_personal.toFixed(2)} • Grupos: €
+              {total_gastado_grupos.toFixed(2)}
             </div>
           </div>
         </div>
@@ -159,7 +161,9 @@ export default function Dashboard() {
         >
           <div
             className={`stat-card-icon ${
-              balance_neto >= 0 ? "stat-card-icon-success" : "stat-card-icon-danger"
+              balance_neto >= 0
+                ? "stat-card-icon-success"
+                : "stat-card-icon-danger"
             }`}
           >
             <Wallet size={24} />
@@ -194,11 +198,15 @@ export default function Dashboard() {
                 <div className="group-info">
                   <div className="group-stat">
                     <span className="group-stat-label">Participantes</span>
-                    <span className="group-stat-value">{grupo.members_count}</span>
+                    <span className="group-stat-value">
+                      {grupo.members_count}
+                    </span>
                   </div>
                   {grupo.last_expense && (
                     <div className="group-last-expense">
-                      <div className="group-last-expense-label">Último gasto</div>
+                      <div className="group-last-expense-label">
+                        Último gasto
+                      </div>
                       <div className="group-last-expense-content">
                         <span>{grupo.last_expense.descripcion}</span>
                         <span className="group-last-expense-amount">
@@ -246,7 +254,9 @@ export default function Dashboard() {
                   {/* Badge de tipo */}
                   <div
                     className={`expense-badge ${
-                      expense.es_personal ? "expense-badge-personal" : "expense-badge-group"
+                      expense.es_personal
+                        ? "expense-badge-personal"
+                        : "expense-badge-group"
                     }`}
                   >
                     {expense.es_personal ? (
@@ -264,7 +274,9 @@ export default function Dashboard() {
 
                   {/* Información del gasto */}
                   <div className="expense-content">
-                    <div className="expense-description">{expense.descripcion}</div>
+                    <div className="expense-description">
+                      {expense.descripcion}
+                    </div>
                     <div className="expense-meta">
                       {expense.es_personal ? (
                         <span className="expense-meta-text">
@@ -272,7 +284,8 @@ export default function Dashboard() {
                         </span>
                       ) : (
                         <span className="expense-meta-text">
-                          {expense.grupo_nombre} • {formatDate(expense.fecha_gasto)}
+                          {expense.grupo_nombre} •{" "}
+                          {formatDate(expense.fecha_gasto)}
                         </span>
                       )}
                     </div>
@@ -280,7 +293,8 @@ export default function Dashboard() {
 
                   {/* Cantidad */}
                   <div className="expense-amount">
-                    {expense.cantidad_total.toFixed(2)} {expense.moneda || "EUR"}
+                    {expense.cantidad_total.toFixed(2)}{" "}
+                    {expense.moneda || "EUR"}
                   </div>
                 </div>
               ))}
@@ -302,7 +316,10 @@ export default function Dashboard() {
         >
           💳 Añadir gasto personal
         </button>
-        <button className="btn btn-secondary btn-center-text" onClick={() => navigate("/grupos")}>
+        <button
+          className="btn btn-secondary btn-center-text"
+          onClick={() => navigate("/grupos")}
+        >
           👥 Ver todos los grupos
         </button>
       </div>
@@ -311,7 +328,6 @@ export default function Dashboard() {
       {openTotalModal && (
         <div className="modal-overlay" onClick={() => setOpenTotalModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            
             <h2 className="modal-title">💰 Resumen del gasto</h2>
 
             <div className="modal-stats">
@@ -358,37 +374,43 @@ export default function Dashboard() {
 
       {/* MODAL: GRUPOS ACTIVOS */}
       {openGroupsModal && (
-        <div className="modal-overlay" onClick={() => setOpenGroupsModal(false)}>
+        <div
+          className="modal-overlay"
+          onClick={() => setOpenGroupsModal(false)}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-
             <h2 className="modal-title">👥 Grupos activos</h2>
 
             {grupos.length > 0 ? (
-              <ul className="modal-list">
-                {grupos.map((g) => (
-                  <li
-                    key={g.id}
-                    className="modal-group-item"
-                    onClick={() => {
-                      setOpenGroupsModal(false);
-                      navigate(`/grupos/${g.id}`);
-                    }}
-                  >
-                    <div className="modal-group-content">
-                      <strong className="modal-group-name">{g.nombre_grupo}</strong>
-                      <div className="modal-group-meta">
-                        <span>{g.members_count} participantes</span>
-                        {g.last_expense && (
-                          <span>
-                            Último: {g.last_expense.descripcion} (€
-                            {g.last_expense.cantidad.toFixed(2)})
-                          </span>
-                        )}
+              <div className="modal-list-scroll">
+                <ul className="modal-list">
+                  {grupos.map((g) => (
+                    <li
+                      key={g.id}
+                      className="modal-group-item"
+                      onClick={() => {
+                        setOpenGroupsModal(false);
+                        navigate(`/grupos/${g.id}`);
+                      }}
+                    >
+                      <div className="modal-group-content">
+                        <strong className="modal-group-name">
+                          {g.nombre_grupo}
+                        </strong>
+                        <div className="modal-group-meta">
+                          <span>{g.members_count} participantes</span>
+                          {g.last_expense && (
+                            <span>
+                              Último: {g.last_expense.descripcion} (€
+                              {g.last_expense.cantidad.toFixed(2)})
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : (
               <div className="empty-state">
                 <p>No tienes grupos activos</p>
@@ -405,9 +427,11 @@ export default function Dashboard() {
 
       {/* MODAL: BALANCE */}
       {openBalanceModal && (
-        <div className="modal-overlay" onClick={() => setOpenBalanceModal(false)}>
+        <div
+          className="modal-overlay"
+          onClick={() => setOpenBalanceModal(false)}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-
             <h2 className="modal-title">💼 Balance personal</h2>
 
             <div className="balance-sections">
