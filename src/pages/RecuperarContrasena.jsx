@@ -1,4 +1,3 @@
-// Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";  
 
 export default function RecuperarContrasena() {

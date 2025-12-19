@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Settings } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import { updateProfileRequest } from "../services/authService";
 import ChangePasswordModal from "../components/ChangePasswordModal";
@@ -20,7 +21,7 @@ export default function Configuracion() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  // Estados de modales
+  // Modales
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -81,14 +82,22 @@ export default function Configuracion() {
   }
 
   return (
-    <div>
-      {/* ----------- Título principal ----------- */}
-      <h1 className="title">Configuración</h1>
+    <div className="page-container">
+      {/* Header */}
+      <div className="dashboard-header">
+        <div className="dashboard-welcome">
+          <Settings className="dashboard-icon" size={32} />
+          <div>
+            <h1 className="title">Configuración</h1>
+            <p className="subtitle">Gestiona tu perfil</p>
+          </div>
+        </div>
+      </div>
 
-      {/* ----------- Card blanca del formulario ----------- */}
+      {/* Card del formulario */}
       <div className="form card padded">
         <form onSubmit={handleSave}>
-          {/* === Nombre === */}
+          {/* Nombre */}
           <label htmlFor="nombre_usuario">Nombre</label>
           <input
             type="text"
@@ -100,7 +109,7 @@ export default function Configuracion() {
             required
           />
 
-          {/* === Correo === */}
+          {/* Correo */}
           <label htmlFor="email">Correo</label>
           <input
             type="email"
@@ -112,7 +121,7 @@ export default function Configuracion() {
             required
           />
 
-          {/* === Contraseña (botón para abrir modal) === */}
+          {/* Contraseña */}
           <label>Contraseña</label>
           <button
             type="button"
@@ -123,32 +132,32 @@ export default function Configuracion() {
             🔒 Cambiar contraseña
           </button>
 
-          {/* === Mensajes de error === */}
+          {/* Mensajes de error */}
           {error && (
             <div className="alert alert-error" style={{ marginTop: "1rem" }}>
               ❌ {error}
             </div>
           )}
 
-          {/* === Mensajes de éxito === */}
+          {/* Mensajes de éxito */}
           {success && (
             <div className="alert alert-success" style={{ marginTop: "1rem" }}>
               ✅ Perfil actualizado correctamente. Redirigiendo...
             </div>
           )}
 
-          {/* === Botones de acción === */}
+          {/* Botones de acción */}
           <div className="settings-actions">
             <button 
               type="submit" 
-              className="btn save"
+              className="btn save btn-center-text"
               disabled={loading}
             >
               {loading ? "Guardando..." : "Guardar cambios"}
             </button>
             <button 
               type="button"
-              className="btn delete"
+              className="btn delete btn-center-text"
               onClick={() => setShowDeleteModal(true)}
               disabled={loading}
             >

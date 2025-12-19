@@ -3,7 +3,7 @@ import useGroups from "../hooks/useGroups";
 import useExpenses from "../hooks/useExpenses";
 
 export default function NuevoGasto() {
-  // --- ESTADOS ---
+  
   const [concepto, setConcepto] = useState("");
   const [grupo, setGrupo] = useState("");
   const [cantidad, setCantidad] = useState("");
@@ -22,7 +22,7 @@ export default function NuevoGasto() {
     }, {})
   );
 
-  // --- CUANDO SE ESCRIBE UN GRUPO ---
+  // CUANDO SE ESCRIBE UN GRUPO 
   useEffect(() => {
     if (!grupo.trim()) {
       // restaurar lista base si el campo está vacío
@@ -54,7 +54,7 @@ export default function NuevoGasto() {
     }));
   };
 
-  // --- SUBMIT ---
+  // SUBMIT 
   const handleSubmit = (e) => {
     e.preventDefault();
 

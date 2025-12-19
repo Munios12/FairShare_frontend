@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Home, TrendingUp, Users, Wallet, CreditCard } from "lucide-react";
+import { Home, TrendingUp, Users, Wallet, CreditCard, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import { getDashboardDataRequest } from "../services/dashboardService";
+import { getBalanceGeneralRequest } from "../services/balanceService";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { user, token } = useAuth();
 
   const [dashboardData, setDashboardData] = useState(null);
+  const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,8 +30,13 @@ export default function Dashboard() {
     setError(null);
 
     try {
-      const data = await getDashboardDataRequest(token);
-      setDashboardData(data);
+      const [dashboard, balance] = await Promise.all([
+        getDashboardDataRequest(token),
+        getBalanceGeneralRequest(token),
+      ]);
+
+      setDashboardData(dashboard);
+      setBalanceData(balance);
     } catch (err) {
       console.error("❌ Error al cargar dashboard:", err.message);
       setError(err.message);
@@ -67,7 +74,7 @@ export default function Dashboard() {
     );
   }
 
-  if (!dashboardData) {
+  if (!dashboardData || !balanceData) {
     return (
       <div className="page-container">
         <p>No hay datos disponibles</p>
@@ -80,13 +87,18 @@ export default function Dashboard() {
     total_gastado_grupos,
     total_gastado_personal,
     grupos_activos,
-    balance,
     grupos,
     gastos_recientes,
   } = dashboardData;
 
-  const balanceLabel = balance.neto >= 0 ? "Debes recibir" : "Debes pagar";
-  const balanceValue = Math.abs(balance.neto);
+  const {
+    total_debes_recibir,
+    total_debes_pagar,
+    balance_neto,
+  } = balanceData;
+
+  const balanceLabel = balance_neto >= 0 ? "Debes recibir" : "Debes pagar";
+  const balanceValue = Math.abs(balance_neto);
 
   return (
     <div className="page-container">
@@ -114,6 +126,10 @@ export default function Dashboard() {
           <div className="stat-card-content">
             <div className="stat-card-label">Total gastado</div>
             <div className="stat-card-value">€{total_gastado.toFixed(2)}</div>
+            <div className="stat-card-detail">
+              Personal: €{total_gastado_personal.toFixed(2)} • 
+              Grupos: €{total_gastado_grupos.toFixed(2)}
+            </div>
           </div>
         </div>
 
@@ -128,19 +144,22 @@ export default function Dashboard() {
           <div className="stat-card-content">
             <div className="stat-card-label">Grupos activos</div>
             <div className="stat-card-value">{grupos_activos}</div>
+            <div className="stat-card-detail">
+              {grupos_activos === 1 ? "grupo" : "grupos"} con actividad
+            </div>
           </div>
         </div>
 
         {/* Balance */}
         <div
           className={`stat-card stat-card-clickable ${
-            balance.neto >= 0 ? "stat-card-positive" : "stat-card-negative"
+            balance_neto >= 0 ? "stat-card-positive" : "stat-card-negative"
           }`}
           onClick={() => setOpenBalanceModal(true)}
         >
           <div
             className={`stat-card-icon ${
-              balance.neto >= 0 ? "stat-card-icon-success" : "stat-card-icon-danger"
+              balance_neto >= 0 ? "stat-card-icon-success" : "stat-card-icon-danger"
             }`}
           >
             <Wallet size={24} />
@@ -148,6 +167,9 @@ export default function Dashboard() {
           <div className="stat-card-content">
             <div className="stat-card-label">{balanceLabel}</div>
             <div className="stat-card-value">€{balanceValue.toFixed(2)}</div>
+            <div className="stat-card-detail">
+              {balance_neto >= 0 ? "A tu favor" : "Pendiente de pagar"}
+            </div>
           </div>
         </div>
       </div>
@@ -212,7 +234,7 @@ export default function Dashboard() {
 
           {gastos_recientes && gastos_recientes.length > 0 ? (
             <div className="expenses-list-dashboard">
-              {gastos_recientes.slice(0, 5).map((expense) => (
+              {gastos_recientes.slice(0, 3).map((expense) => (
                 <div
                   key={expense.id}
                   className={`expense-item-dashboard ${
@@ -275,12 +297,12 @@ export default function Dashboard() {
       {/* Acciones rápidas */}
       <div className="actions-section">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary btn-center-text"
           onClick={() => navigate("/gastos-personales")}
         >
           💳 Añadir gasto personal
         </button>
-        <button className="btn btn-secondary" onClick={() => navigate("/grupos")}>
+        <button className="btn btn-secondary btn-center-text" onClick={() => navigate("/grupos")}>
           👥 Ver todos los grupos
         </button>
       </div>
@@ -289,13 +311,7 @@ export default function Dashboard() {
       {openTotalModal && (
         <div className="modal-overlay" onClick={() => setOpenTotalModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setOpenTotalModal(false)}
-            >
-              ✕
-            </button>
-
+            
             <h2 className="modal-title">💰 Resumen del gasto</h2>
 
             <div className="modal-stats">
@@ -344,12 +360,6 @@ export default function Dashboard() {
       {openGroupsModal && (
         <div className="modal-overlay" onClick={() => setOpenGroupsModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setOpenGroupsModal(false)}
-            >
-              ✕
-            </button>
 
             <h2 className="modal-title">👥 Grupos activos</h2>
 
@@ -397,33 +407,37 @@ export default function Dashboard() {
       {openBalanceModal && (
         <div className="modal-overlay" onClick={() => setOpenBalanceModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setOpenBalanceModal(false)}
-            >
-              ✕
-            </button>
 
             <h2 className="modal-title">💼 Balance personal</h2>
 
             <div className="balance-sections">
               {/* TE DEBEN */}
               <div className="balance-section balance-section-positive">
-                <div className="balance-section-header">
-                  <strong>Te deben</strong>
+                <div className="balance-section-icon">
+                  <ArrowUpRight size={24} />
                 </div>
-                <div className="balance-section-amount">
-                  €{balance.te_deben.toFixed(2)}
+                <div className="balance-section-content">
+                  <div className="balance-section-header">
+                    <strong>Te deben</strong>
+                  </div>
+                  <div className="balance-section-amount">
+                    €{total_debes_recibir.toFixed(2)}
+                  </div>
                 </div>
               </div>
 
               {/* TÚ DEBES */}
               <div className="balance-section balance-section-negative">
-                <div className="balance-section-header">
-                  <strong>Tú debes</strong>
+                <div className="balance-section-icon">
+                  <ArrowDownRight size={24} />
                 </div>
-                <div className="balance-section-amount">
-                  €{balance.debes.toFixed(2)}
+                <div className="balance-section-content">
+                  <div className="balance-section-header">
+                    <strong>Tú debes</strong>
+                  </div>
+                  <div className="balance-section-amount">
+                    €{total_debes_pagar.toFixed(2)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -431,15 +445,29 @@ export default function Dashboard() {
             {/* NETO */}
             <div
               className={`modal-total modal-total-balance ${
-                balance.neto >= 0 ? "balance-positive" : "balance-negative"
+                balance_neto >= 0 ? "balance-positive" : "balance-negative"
               }`}
             >
-              <strong>
-                {balance.neto >= 0 ? "Debes recibir:" : "Debes pagar:"}
-              </strong>
-              <strong className="balance-neto-value">
-                €{Math.abs(balance.neto).toFixed(2)}
-              </strong>
+              <div className="balance-neto-label">
+                <strong>
+                  {balance_neto >= 0 ? "Debes recibir:" : "Debes pagar:"}
+                </strong>
+              </div>
+              <div className="balance-neto-value">
+                <strong>€{Math.abs(balance_neto).toFixed(2)}</strong>
+              </div>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                className="btn btn-primary btn-block"
+                onClick={() => {
+                  setOpenBalanceModal(false);
+                  navigate("/balance");
+                }}
+              >
+                Ver balance detallado
+              </button>
             </div>
           </div>
         </div>

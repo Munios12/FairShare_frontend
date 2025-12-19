@@ -1,14 +1,7 @@
-// Importamos hooks
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Importamos AuthContext
 import useAuth from "../hooks/useAuth";
-
-// Importamos servicio real
 import { registerRequest } from "../services/authService";
-
-// Logo FairShare
 import logo from "../assets/img/FairShare_3.png";
 
 export default function Register() {

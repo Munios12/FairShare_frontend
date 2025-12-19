@@ -1,15 +1,14 @@
-/* === VARIABLES DE COLOR Y TEMAS === */
-/* Centralizan colores y permiten cambiar fácilmente toda la paleta */
+
 :root{
-  --bg:#F6F8FA;        /* Color de fondo general de la app */
-  --ink:#243447;       /* Color principal del texto y sidebar/header */
-  --muted:#6b7280;     /* Color gris suave para subtítulos o textos secundarios */
-  --border:#E8E8E8;    /* Color usado para bordes ligeros */
-  --brand:#4FC3B1;     /* Color principal de FairShare (verde menta) */
-  --brand-600:#3BA797; /* Versión más oscura del color brand (hover / énfasis) */
-  --red:#E25656;       /* Rojo para botones de peligro */
-  --green:#25a27a;     /* Verde para validaciones o balances positivos */
-  --card:#fff;         /* Fondo de tarjetas (blanco puro) */
+  --bg:#F6F8FA;        
+  --ink:#243447;       
+  --muted:#6b7280;     
+  --border:#E8E8E8;    
+  --brand:#4FC3B1;     
+  --brand-600:#3BA797; 
+  --red:#E25656;       
+  --green:#25a27a;     
+  --card:#fff;         
 }
 
 /* Ajuste global del box-model para evitar problemas con padding y ancho */
@@ -18,16 +17,16 @@
 /* Estilos base del <body> */
 body {
   margin:0;
-  font-family:Poppins, system-ui, sans-serif; /* Fuente principal */
-  background:var(--bg);                       /* Fondo gris suave */
-  color:var(--ink);                           /* Color de texto por defecto */
+  font-family:Poppins, system-ui, sans-serif; 
+  background:var(--bg);                       
+  color:var(--ink);                           
 }
 
-/* === LAYOUT GENERAL DE LA APLICACIÓN === */
+/* LAYOUT  */
 .app-layout {
-  min-height:100vh;        /* Altura mínima → pantalla completa */
+  min-height:100vh;        
   display:flex;
-  flex-direction:column;   /* Header arriba, contenido, footer abajo */
+  flex-direction:column;   
 }
 
 /* HEADER */
@@ -36,7 +35,7 @@ body {
   background: var(--ink);
   color: #fff;
   display: flex;
-  align-items: center;        /* Centrar verticalmente */
+  align-items: center;        
   justify-content: space-between;
   padding: 0 24px;
 }
@@ -44,15 +43,15 @@ body {
 /* Contenedor derecho: avatar + nombre + botón */
 .header-right {
   display: flex;
-  align-items: center;        /* Centrado vertical */
-  gap: 16px;                  /* Separación uniforme */
+  align-items: center;        
+  gap: 16px;                  
 }
 
 /* Bloque del usuario */
 .user {
   display: flex;
   align-items: center;
-  gap: 8px;                   /* Separación entre avatar y nombre */
+  gap: 8px;                  
 }
 
 /* Avatar redondo */
@@ -86,14 +85,11 @@ body {
 /* Logo del header */
 .logo {
   font-weight: 700;
-  font-size: 22px;   /* tamaño header */
+  font-size: 22px;   
   letter-spacing: -0.5px; 
 }
 
-/* ========================= */
-/* BRAND DEL HEADER (logo + texto) */
-/* ========================= */
-
+/* Header */
 .brand {
   display: flex;
   align-items: center;
@@ -118,23 +114,23 @@ body {
 /* Contenedor principal del layout: sidebar izquierda + contenido derecha */
 .layout {
   display:flex;
-  min-height:calc(100vh - 64px); /* 100vh menos la altura del header */
+  min-height:calc(100vh - 64px); 
 }
 
-/* === SIDEBAR LATERAL IZQUIERDA === */
+/* SIDEBAR */
 .sidebar {
-  width:220px;                   /* Ancho fijo */
-  background:var(--ink);         /* Mismo color que el header */
+  width:220px;                   
+  background:var(--ink);         
   padding:16px;
   display:flex;
   flex-direction:column;
-  gap:8px;                       /* Separación entre botones del menú */
+  gap:8px;                       
 }
 
 /* Botones del menú lateral */
 .nav-item {
-  all:unset;                     /* Resetea TODOS los estilos por defecto */
-  color:#e5e7eb;                 /* Gris muy claro */
+  all:unset;                     
+  color:#e5e7eb;                 
   padding:12px 14px;
   border-radius:8px;
   cursor:pointer;
@@ -142,27 +138,26 @@ body {
 
 /* Hover de los elementos del menú */
 .nav-item:hover { 
-  background:rgba(79,195,177,.12); /* Verde brand muy suave */
+  background:rgba(79,195,177,.12);
   color:var(--brand);
 }
 
-/* Cuando el usuario está en esa ruta */
 .nav-item.active { 
-  background:var(--brand); /* Fondo verde menta */
-  color:#fff;              /* Texto blanco */
+  background:var(--brand); 
+  color:#fff;              
 }
 
-/* === CONTENIDO PRINCIPAL === */
+/* CONTENIDO PRINCIPAL  */
 .main {
-  padding: 32px 48px; /* Separación lateral para centrar contenido igual que mockup */
+  padding: 32px 48px; 
 }
 
 /* Títulos h1 de cada página */
 .title {
-  margin-bottom: 24px; /* Separación inferior */
+  margin-bottom: 24px; 
 }
 
-/* === BOTONES GENERALES === */
+/* Botones */
 .btn {
   border:none;
   border-radius:8px;
@@ -179,17 +174,17 @@ body {
 
 /* Hover del botón verde */
 .btn.primary:hover{ 
-  background:var(--brand-600); /* un poco más oscuro */
+  background:var(--brand-600); 
 }
 
-/* Botón estilo outline */
+/* Botón  outline */
 .btn.outline {
   background:#fff;
-  border:1px solid var(--ink); /* borde gris oscuro */
+  border:1px solid var(--ink); 
   color:var(--ink);
 }
 
-/* Botón ghost (transparente, estilo configuración) */
+/* Botón configuración) */
 .btn.ghost {
   background:transparent;
   border:1px solid #e5e7eb;
@@ -202,9 +197,9 @@ body {
   color:#fff;
 }
 
-/* === LISTAS  === */
+/* Listas*/
 .list {
-  list-style: none; /* Sin puntos */
+  list-style: none; 
   padding-left: 0;
   display: grid;
   gap: 8px;
@@ -213,7 +208,7 @@ body {
 /* Centrar tarjeta de login/register */
 .center-card {
   display: grid;
-  place-items: center; /* Centrado vertical/horizontal */
+  place-items: center; 
   height: 100%;
 }
 
@@ -227,24 +222,24 @@ body {
   margin: 4px 0;
 }
 
-/* === TARJETAS VERDES DE ESTADÍSTICAS === */
+/* Tarjetas */
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 24px;
   padding: 24px 0;
 }
 
 /* Tarjeta individual */
 .stat {
-  background: linear-gradient(120deg, #4FC3B1, #3BA797); /* Degradado verde */
+  background: linear-gradient(120deg, #4FC3B1, #3BA797); 
   border-radius: 12px;
   padding: 24px;
   color: #fff;
-  text-align: center; /* Texto centrado */
+  text-align: center; 
 }
 
-/* Número grande (ej: €247,50) */
+/* Números */
 .stat .n {
   font-size: 32px;
   font-weight: 700;
@@ -256,22 +251,22 @@ body {
   opacity: .9;
 }
 
-/* === TARJETAS BLANCAS DEL DASHBOARD === */
+/* TARJETAS BLANCAS DEL DASHBOARD */
 .card {
   background: #fff;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra suave */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
 }
 
-/* Título de las cards blancas */
+/* Título de las cards  */
 .card-title {
   font-weight: 600;
   margin-bottom: 12px;
   font-size: 18px;
 }
 
-/* GRID PRINCIPAL DE LAS CARDS */
+/* GRID CARDS */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -300,7 +295,7 @@ body {
   background: #3BA797;
 }
 
-/* Botón outline mejorado */
+/* Botón outline  */
 .btn.outline {
   border: 2px solid #243447;
   background: transparent;
@@ -309,14 +304,14 @@ body {
   border-radius: 8px;
 }
 
-/* === NUEVO GASTO === */
+/*  NUEVO GASTO */
 .form {
   display: flex;
   flex-direction: column;
   gap: 16px;                 
 }
 
-/* Card blanca EXACTA del mockup */
+/* Card  */
 .form.card {
   width: 100%;
   max-width: 1100px;         
@@ -385,13 +380,13 @@ body {
   background: #3BA797;
 }
 
-/* El layout ocupa todo el ancho disponible */
+/* Layout */
 .layout {
   display: flex;
   width: 100%;
 }
 
-/* El área principal ocupa tODO el espacio libre */
+/* Main */
 .main {
   flex: 1;                     
   width: 100%;                
@@ -400,7 +395,7 @@ body {
   padding: 48px 64px;          
 }
 
-/* === BALANCE === */
+/* BALANCE  */
 /* Card del balance  */
 .card.padded {
   max-width: 1200px;
@@ -424,7 +419,7 @@ body {
   color: var(--ink);
 }
 
-/* Filas con más espacio y línea separadora  */
+/* Filas */
 .table tbody td {
   padding: 18px 12px;
   font-size: 15px;
@@ -450,23 +445,23 @@ body {
   margin-top: 24px;
 }
 
-/* === CONFIGURACIÓN: BOTONES === */
+/* CONFIGURACIÓN BOTONES */
 .settings-actions {
-  display: flex;           /* botones en fila */
-  gap: 12px;               /* separación entre botones */
-  margin-top: 24px;        /* separación del formulario */
+  display: flex;           
+  gap: 12px;               
+  margin-top: 24px;        
 }
 
 .settings-actions .btn {
-  width: 180px;            /* tamaño idéntico para ambos botones */
-  padding: 12px 0;         /* altura consistente */
+  width: 180px;            
+  padding: 12px 0;         
   font-size: 15px;
   font-weight: 600;
   border-radius: 8px;
   text-align: center;
 }
 
-/* Botón guardar (verde) */
+/* Botón guardar  */
 .settings-actions .btn.save {
   background: var(--brand);
   color: #fff;
@@ -477,18 +472,18 @@ body {
   background: var(--brand-600);
 }
 
-/* Botón eliminar (rojo) */
+/* Botón eliminar */
 .settings-actions .btn.delete {
   background: var(--red);
   color: white;
   border: none;
 }
 
-/* Logo grande para Login, Registro y Recuperar Contraseña */
+/* Logo para Login, Registro y Recuperar Contraseña */
 .auth-logo {
-  width: 160px;           /* Tamaño */
-  height: auto;           /* Mantener */
-  margin: 16px 0 8px 0;   /* Espaciado superior e inferior */
+  width: 160px;          
+  height: auto;           
+  margin: 16px 0 8px 0;   
   object-fit: contain;
 
   opacity: 0;
@@ -507,7 +502,7 @@ body {
   }
 }
 
-/*  DROPDOWN DEL USUARIO     */
+/*  DROPDOWN DEL USUARIO */
 .user-menu {
   position: relative;
 }
@@ -616,7 +611,7 @@ body {
   background: rgba(226,86,86,.10);
 }
 
-/*  AVATAR POR COLOR         */
+/*  AVATAR POR COLOR  */
 .avatar {
   display: grid;
   place-items: center;
@@ -648,7 +643,7 @@ body {
   color: #2a0707;
 }
 
-/*  SELECTOR DE COLORES       */
+/*  SELECTOR DE COLORES  */
 .color-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -705,18 +700,18 @@ body {
   font-weight: 600;
 }
 
-/* --- MODAL OVERLAY --- */
+/*  OVERLAY */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6); /* oscuro elegante */
+  background: rgba(15, 23, 42, 0.6); 
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
 }
 
-/* --- MODAL CAJA --- */
+/* CAJA  */
 .modal {
   background: #fff;
   border-radius: 16px;
@@ -727,7 +722,7 @@ body {
   position: relative;
 }
 
-/* --- BOTÓN CERRAR --- */
+/* BOTÓN CERRAR  */
 .modal-close {
   position: absolute;
   top: 14px;
@@ -743,7 +738,7 @@ body {
   opacity: 1;
 }
 
-/* --- CONTENIDO --- */
+/* CONTENIDO  */
 .modal-title {
   margin-bottom: 16px;
 }
@@ -765,7 +760,7 @@ body {
   border-bottom: none;
 }
 
-/* --- CLICKABLE STATS --- */
+/* CLICKABLES  */
 .stat--clickable {
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -821,7 +816,7 @@ body {
   opacity: 0.85;
 }
 
-/* ===== Tarjeta 3 (balance) con color según neto ===== */
+/* Tarjeta balance con color según neto ===== */
 .stat--positive {
   background: #3fb7a6; 
 }
@@ -830,7 +825,7 @@ body {
   background: #e25656; 
 }
 
-/* ===== Títulos del modal (Te deben / Tú debes) ===== */
+/*  Te deben / Tú debes */
 .balance-section-title {
   margin-top: 6px;
   margin-bottom: 10px;
@@ -845,13 +840,13 @@ body {
   color: #e25656;
 }
 
-/* ===== Mensajes de "vacío" (azul) ===== */
+/* Mensajes de "vacío" (azul)  */
 .balance-empty {
   color: #2f78ff;
   font-weight: 600;
 }
 
-/* ===== Neto (verde/rojo) ===== */
+/* Neto (verde/rojo)  */
 .modal-total--net.net--positive strong {
   color: #2fa89a;
 }
@@ -869,10 +864,7 @@ body {
   transition: 0.15s;
 }
 
-/* ========================================
-   PÁGINA DE CONFIGURACIÓN
-   ======================================== */
-
+/* Configuración */
 .form label {
   display: block;
   margin-top: 1rem;
@@ -960,11 +952,7 @@ body {
   }
 }
 
-/* ========================================
-   MODALES
-   ======================================== */
-
-/* Modal overlay - Fondo oscuro */
+/* Modales */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -988,7 +976,7 @@ body {
   }
 }
 
-/* Modal content - Contenedor del modal */
+/* Contenedor  */
 .modal-content {
   background: white;
   border-radius: 12px;
@@ -1020,12 +1008,12 @@ body {
   font-weight: 600;
 }
 
-/* Modal de peligro (para eliminar cuenta) */
+/* Modal eliminar cuenta */
 .modal-danger h2 {
   color: #dc2626;
 }
 
-/* Warning box - Caja de advertencia */
+/* Caja de advertencia */
 .warning-box {
   background-color: #fef2f2;
   border: 2px solid #fecaca;
@@ -1054,7 +1042,7 @@ body {
   margin: 0.25rem 0;
 }
 
-/* Form groups en modales */
+/* Grupos en modales */
 .modal-content .form-group {
   margin-bottom: 1.5rem;
 }
@@ -1095,7 +1083,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* Modal actions - Botones del modal */
+/* Botones del modal */
 .modal-actions {
   display: flex;
   gap: 1rem;
@@ -1103,7 +1091,7 @@ body {
   margin-top: 2rem;
 }
 
-/* Botón secundario (Cancelar) */
+/* Botón Cancelar */
 .btn-secondary {
   background-color: #e5e7eb;
   color: #374151;
@@ -1125,7 +1113,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Botón primario (Guardar/Confirmar) */
+/* Botón Guardar/Confirmar */
 .btn-primary {
   background-color: #14b8a6;
   color: white;
@@ -1151,7 +1139,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Botón de peligro (Eliminar cuenta) */
+/* Botón Eliminar cuenta */
 .btn-danger {
   background-color: #dc2626;
   color: white;
@@ -1197,7 +1185,6 @@ body {
   border: 1px solid #a7f3d0;
 }
 
-/* Responsive - Móviles */
 @media (max-width: 640px) {
   .modal-content {
     width: 95%;
@@ -1217,10 +1204,7 @@ body {
   }
 }
 
-/* ========================================
-   PÁGINA DE GRUPOS
-   ======================================== */
-
+/* Grupos */
 .page-container {
   padding: 2rem;
   max-width: 1400px;
@@ -1241,10 +1225,7 @@ body {
   color: #333;
 }
 
-/* ========================================
-   GRID DE GRUPOS
-   ======================================== */
-
+/* =Grid de grupos */
 .groups-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -1252,10 +1233,7 @@ body {
   margin-top: 2rem;
 }
 
-/* ========================================
-   TARJETA DE GRUPO
-   ======================================== */
-
+/* Tarjeta grupo */
 .group-card {
   background: white;
   border-radius: 12px;
@@ -1335,10 +1313,7 @@ body {
   background-color: #f0fdfa;
 }
 
-/* ========================================
-   ESTADO VACÍO
-   ======================================== */
-
+/* Estado vacio */
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -1369,11 +1344,8 @@ body {
   font-style: italic;
 }
 
-/* ========================================
-   LOADING SPINNER
-   ======================================== */
-
-.loading-spinner {
+/* Loading */
+ .loading-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1402,10 +1374,7 @@ body {
   font-size: 1rem;
 }
 
-/* ========================================
-   DETALLE DEL GRUPO
-   ======================================== */
-
+/* Detalle grupo */
 .btn-back {
   background: none;
   border: none;
@@ -1431,10 +1400,7 @@ body {
   margin-top: 2rem;
 }
 
-/* ========================================
-   CARD GENÉRICA
-   ======================================== */
-
+/* Card */
 .card {
   background: white;
   border-radius: 12px;
@@ -1463,10 +1429,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* ========================================
-   LISTA DE MIEMBROS
-   ======================================== */
-
+/* Lista miembros */
 .members-list {
   display: flex;
   flex-direction: column;
@@ -1519,10 +1482,7 @@ body {
   color: #92400e;
 }
 
-/* ========================================
-   LISTA DE GASTOS
-   ======================================== */
-
+/* Lista gastos */
 .expenses-list {
   display: flex;
   flex-direction: column;
@@ -1567,10 +1527,7 @@ body {
   white-space: nowrap;
 }
 
-/* ========================================
-   BOTONES ADICIONALES
-   ======================================== */
-
+/* Botones */
 .btn {
   padding: 0.75rem 1.5rem;
   border: none;
@@ -1607,9 +1564,6 @@ body {
   background-color: #d1d5db;
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
 
 @media (max-width: 768px) {
   .page-container {
@@ -1683,7 +1637,7 @@ body {
   background-color: #f3f4f6 !important;
 }
 
-/* Modal grande para formularios complejos */
+/* Modal formularios */
 .modal-large {
   max-width: 600px;
 }
@@ -1734,7 +1688,7 @@ body {
   font-style: italic;
 }
 
-/* Select mejorado */
+/* Select  */
 select {
   width: 100%;
   padding: 0.75rem;
@@ -1857,10 +1811,7 @@ select:disabled {
   justify-content: center;
 }
 
-/* ========================================
-   GASTOS PERSONALES - PÁGINA
-   ======================================== */
-
+/* Gastos personales */
 /* Total card */
 .personal-total-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1987,10 +1938,7 @@ select:disabled {
   font-weight: 500;
 }
 
-/* ========================================
-   DASHBOARD - MEJORAS
-   ======================================== */
-
+/* Dashboard */
 /* Header del dashboard */
 .dashboard-header {
   margin-bottom: 2rem;
@@ -2160,10 +2108,7 @@ select:disabled {
   white-space: nowrap;
 }
 
-/* ========================================
-   GASTOS RECIENTES - DASHBOARD
-   ======================================== */
-
+/* Gastos Dashboard */
 .expenses-list-dashboard {
   display: flex;
   flex-direction: column;
@@ -2181,13 +2126,13 @@ select:disabled {
   overflow: hidden;
 }
 
-/* Gastos de grupo - Verde suave */
+/* Gastos de grupo  */
 .expense-item-group {
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
   border-left: 4px solid #10b981;
 }
 
-/* Gastos personales - Azul suave */
+/* Gastos personales */
 .expense-item-personal {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border-left: 4px solid #3b82f6;
@@ -2255,10 +2200,7 @@ select:disabled {
   flex-shrink: 0;
 }
 
-/* ========================================
-   ACCIONES RÁPIDAS
-   ======================================== */
-
+/* Acciones rápidas */
 .actions-section {
   display: flex;
   gap: 1rem;
@@ -2270,10 +2212,7 @@ select:disabled {
   min-width: 200px;
 }
 
-/* ========================================
-   MODALES - MEJORAS
-   ======================================== */
-
+/* Modales */
 .modal-stats {
   display: flex;
   flex-direction: column;
@@ -2433,10 +2372,7 @@ select:disabled {
   color: #fee2e2;
 }
 
-/* ========================================
-   ICONOS Y ESTADOS
-   ======================================== */
-
+/* Iconos y estados */
 .page-icon {
   color: #14b8a6;
 }
@@ -2454,10 +2390,6 @@ select:disabled {
   padding: 3rem;
   gap: 1rem;
 }
-
-/* ========================================
-   RESPONSIVE
-   ======================================== */
 
 @media (max-width: 768px) {
   .personal-total-amount {
@@ -2481,10 +2413,7 @@ select:disabled {
   }
 }
 
-/* ========================================
-   ANIMACIONES
-   ======================================== */
-
+/* Animaciones */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -2502,10 +2431,7 @@ select:disabled {
   animation: slideInUp 0.3s ease-out;
 }
 
-/* ========================================
-   UTILIDADES ADICIONALES
-   ======================================== */
-
+/* Utiles */
 .page-title-section {
   display: flex;
   align-items: center;
@@ -2525,6 +2451,751 @@ select:disabled {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
+
+/* BALANCE */
+/* Header del balance */
+.balance-header {
+  margin-bottom: 2rem;
+}
+
+.balance-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.balance-icon {
+  color: #14b8a6;
+}
+
+/* CARDS Balance */
+.balance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.balance-summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.balance-summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Iconos de las cards */
+.balance-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.balance-card-primary .balance-card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.balance-card-success .balance-card-icon {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.balance-card-danger .balance-card-icon {
+  background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+  color: white;
+}
+
+.balance-card-success-alt .balance-card-icon {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+  color: white;
+}
+
+.balance-card-danger-alt .balance-card-icon {
+  background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+  color: white;
+}
+
+/* Contenido de las cards */
+.balance-card-content {
+  flex: 1;
+}
+
+.balance-card-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balance-card-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.balance-card-detail {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+/* Bordes de colores */
+.balance-card-primary {
+  border-left-color: #667eea;
+}
+
+.balance-card-success {
+  border-left-color: #10b981;
+}
+
+.balance-card-danger {
+  border-left-color: #ef4444;
+}
+
+.balance-card-success-alt {
+  border-left-color: #22c55e;
+}
+
+.balance-card-danger-alt {
+  border-left-color: #f59e0b;
+}
+
+/* SECCIONES DE TABLAS */
+.balance-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.balance-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.balance-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.balance-section-title h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.section-icon {
+  color: #14b8a6;
+}
+
+.balance-section-total {
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.balance-section-total strong {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+/* TABLAS */
+.balance-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.balance-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.balance-table thead th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balance-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.balance-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.balance-table tbody td {
+  padding: 1rem 1.25rem;
+  color: #374151;
+}
+
+.table-concept {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.table-amount {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.table-amount-negative {
+  font-weight: 600;
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+.table-amount-positive {
+  font-weight: 600;
+  color: #10b981;
+  font-size: 1rem;
+}
+
+.table-date {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.table-group-name {
+  font-weight: 600;
+}
+
+.group-name-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.table-balance {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.table-balance-positive {
+  color: #10b981;
+}
+
+.table-balance-negative {
+  color: #ef4444;
+}
+
+/* Footer de tabla */
+.balance-table tfoot {
+  background: #f9fafb;
+  border-top: 2px solid #e5e7eb;
+}
+
+.balance-table tfoot td {
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+}
+
+.table-footer-label {
+  color: #111827;
+  font-size: 1.125rem;
+}
+
+.table-footer-amount {
+  color: #667eea;
+  font-size: 1.25rem;
+  text-align: right;
+}
+
+/* TABLA DE GRUPOS */
+.balance-table-groups thead {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.balance-table-groups thead th:nth-child(1) {
+  width: 30%;
+}
+
+.balance-table-groups thead th:nth-child(2),
+.balance-table-groups thead th:nth-child(3),
+.balance-table-groups thead th:nth-child(4) {
+  width: 15%;
+  text-align: center;
+}
+
+.balance-table-groups thead th:nth-child(5) {
+  width: 15%;
+  text-align: center;
+}
+
+.balance-table-groups tbody td:not(:first-child) {
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .balance-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-card-value {
+    font-size: 1.75rem;
+  }
+
+  .balance-section {
+    padding: 1.5rem;
+  }
+
+  .balance-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .balance-table-container {
+    overflow-x: scroll;
+  }
+
+  .balance-table {
+    min-width: 600px;
+  }
+
+  .balance-table thead th,
+  .balance-table tbody td,
+  .balance-table tfoot td {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .balance-card-value {
+    font-size: 1.5rem;
+  }
+
+  .balance-section-title h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ANIMACIONES */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.balance-summary-card,
+.balance-section {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.balance-summary-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.balance-summary-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.balance-summary-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.balance-summary-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* BALANCE INTERNO DEL GRUPO */
+.group-balance-card {
+  margin-top: 2rem;
+  animation: slideInUp 0.5s ease-out;
+}
+
+/* Secciones principales */
+.balance-members-section,
+.balance-transactions-section {
+  padding: 1.5rem 0;
+}
+
+.balance-members-section {
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.balance-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+/* GRID DE MIEMBROS*/
+.balance-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.balance-member-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.balance-member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Estados de balance */
+.balance-member-card.balance-positive {
+  border-left: 4px solid #10b981;
+  background: linear-gradient(to right, #f0fdf4 0%, white 20%);
+}
+
+.balance-member-card.balance-negative {
+  border-left: 4px solid #ef4444;
+  background: linear-gradient(to right, #fef2f2 0%, white 20%);
+}
+
+.balance-member-card.balance-neutral {
+  border-left: 4px solid #6b7280;
+  background: linear-gradient(to right, #f9fafb 0%, white 20%);
+}
+
+/* Header del miembro */
+.balance-member-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.balance-member-info {
+  flex: 1;
+}
+
+.balance-member-name {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.balance-member-status {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.balance-status-positive {
+  color: #10b981;
+}
+
+.balance-status-negative {
+  color: #ef4444;
+}
+
+.balance-status-neutral {
+  color: #6b7280;
+}
+
+/* Detalles del balance */
+.balance-member-details {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.balance-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.balance-detail-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.balance-detail-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.balance-detail-positive {
+  color: #10b981;
+}
+
+.balance-detail-negative {
+  color: #ef4444;
+}
+
+/* TRANSACCIONES*/
+.balance-transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.balance-transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #fff 100%);
+  border-radius: 12px;
+  border: 2px solid #e0f2fe;
+  transition: all 0.3s ease;
+}
+
+.balance-transaction-item:hover {
+  transform: translateX(8px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.15);
+  border-color: #0ea5e9;
+}
+
+.transaction-from,
+.transaction-to {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.transaction-from {
+  justify-content: flex-start;
+}
+
+.transaction-to {
+  justify-content: flex-end;
+}
+
+.transaction-name {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.transaction-arrow {
+  color: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.transaction-amount {
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+/* Avatar pequeño para transacciones */
+.avatar-small {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+/* ESTADO SALDADO */
+.balance-settled {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 12px;
+  border: 2px solid #86efac;
+}
+
+.balance-settled-icon {
+  font-size: 3rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.balance-settled-text strong {
+  display: block;
+  font-size: 1.25rem;
+  color: #166534;
+  margin-bottom: 0.5rem;
+}
+
+.balance-settled-text p {
+  color: #15803d;
+  margin: 0;
+}
+
+.balance-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #eff6ff;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  color: #1e40af;
+  font-size: 0.875rem;
+}
+
+.balance-info svg {
+  flex-shrink: 0;
+  color: #3b82f6;
+}
+
+/* ANIMACIONES */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.balance-member-card {
+  animation: slideInUp 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.balance-member-card:nth-child(1) { animation-delay: 0.1s; }
+.balance-member-card:nth-child(2) { animation-delay: 0.2s; }
+.balance-member-card:nth-child(3) { animation-delay: 0.3s; }
+.balance-member-card:nth-child(4) { animation-delay: 0.4s; }
+.balance-member-card:nth-child(n+5) { animation-delay: 0.5s; }
+
+.balance-transaction-item {
+  animation: slideInUp 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.balance-transaction-item:nth-child(1) { animation-delay: 0.6s; }
+.balance-transaction-item:nth-child(2) { animation-delay: 0.7s; }
+.balance-transaction-item:nth-child(3) { animation-delay: 0.8s; }
+.balance-transaction-item:nth-child(4) { animation-delay: 0.9s; }
+.balance-transaction-item:nth-child(n+5) { animation-delay: 1s; }
+
+/* RESPONSIVE*/
+@media (max-width: 768px) {
+  .balance-members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-transaction-item {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .transaction-from,
+  .transaction-to {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .transaction-arrow {
+    transform: rotate(90deg);
+  }
+
+  .transaction-amount {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .balance-members-section,
+  .balance-transactions-section {
+    padding: 1rem 0;
+  }
+
+  .balance-member-card {
+    padding: 1rem;
+  }
+
+  .balance-transaction-item {
+    padding: 1rem;
+  }
+
+  .transaction-name {
+    font-size: 0.875rem;
+  }
+
+  .transaction-amount {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+  .btn-center-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
 /* === FOOTER === */
 .footer {
   display: flex;

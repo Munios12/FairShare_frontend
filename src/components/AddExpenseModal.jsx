@@ -30,12 +30,35 @@ export default function AddExpenseModal({
 
   const [availableMembers, setAvailableMembers] = useState([]);
 
+  // Resetea formulario
+  function resetForm() {
+    setFormData({
+      grupo_id: groupId || "",
+      concepto: "",
+      cantidad: "",
+      pagador_id: user?.id || "",
+      participantes: [],
+    });
+    setAvailableMembers([]);
+    setError(null);
+    setSuccess(false);
+    setLoading(false);
+    setLoadingParticipants(false);
+  }
+
+  // Limpiar formulario 
+  useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen]);
+
   // Inicializar datos cuando se abre el modal
   useEffect(() => {
     if (isOpen) {
       if (expenseToEdit) {
-        // Modo edición: cargar datos del gasto
-        console.log("🔄 Cargando gasto para editar:", expenseToEdit);
+        // Cargar datos del gasto
+        console.log("📝 Cargando gasto para editar:", expenseToEdit);
         setFormData({
           grupo_id: expenseToEdit.grupo_id || "",
           concepto: expenseToEdit.descripcion || "",
@@ -44,14 +67,14 @@ export default function AddExpenseModal({
           participantes: [],
         });
       } else if (groupId) {
-        // Modo crear con grupo específico
+        // Crear con grupo específico
         setFormData(prev => ({
           ...prev,
           grupo_id: groupId,
           pagador_id: user?.id || "",
         }));
       } else {
-        // Modo crear sin grupo específico
+        // Crear sin grupo específico
         setFormData({
           grupo_id: "",
           concepto: "",
@@ -63,7 +86,7 @@ export default function AddExpenseModal({
     }
   }, [isOpen, expenseToEdit, groupId, user]);
 
-  // Cargar participantes del gasto si estamos editando
+  // Cargar participantes del gasto si editar
   useEffect(() => {
     async function loadExpenseParticipants() {
       if (expenseToEdit && isOpen) {
@@ -100,7 +123,7 @@ export default function AddExpenseModal({
   // Cargar miembros del grupo cuando se selecciona/cambia grupo
   useEffect(() => {
     async function loadGroupMembers() {
-      if (formData.grupo_id) {
+      if (formData.grupo_id && isOpen) {
         try {
           console.log("👥 Cargando miembros del grupo:", formData.grupo_id);
           
@@ -110,7 +133,7 @@ export default function AddExpenseModal({
             console.log("✅ Miembros del grupo:", group.miembros);
             setAvailableMembers(group.miembros);
             
-            // Solo auto-seleccionar si NO estamos editando Y no hay participantes ya
+            // Auto-seleccionar si NO estamos editando Y no hay participantes ya
             if (!isEditing && formData.participantes.length === 0) {
               setFormData(prev => ({
                 ...prev,
@@ -118,7 +141,7 @@ export default function AddExpenseModal({
               }));
             }
 
-            // Si estamos editando y no hay pagador seleccionado, usar el del usuario
+            // Si estamos editando y no hay pagador seleccionado uasamos el del usuario
             if (isEditing && !formData.pagador_id && group.miembros.length > 0) {
               setFormData(prev => ({
                 ...prev,
@@ -132,7 +155,7 @@ export default function AddExpenseModal({
       }
     }
     loadGroupMembers();
-  }, [formData.grupo_id]);
+  }, [formData.grupo_id, isOpen]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -207,17 +230,6 @@ export default function AddExpenseModal({
       console.log(`✅ Gasto ${isEditing ? 'actualizado' : 'creado'} correctamente`);
       setSuccess(true);
 
-      // Limpiar formulario solo si estamos creando
-      if (!isEditing) {
-        setFormData({
-          grupo_id: groupId || "",
-          concepto: "",
-          cantidad: "",
-          pagador_id: user?.id || "",
-          participantes: [],
-        });
-      }
-
       // Notificar éxito y cerrar
       setTimeout(() => {
         if (onExpenseAdded) onExpenseAdded();
@@ -233,16 +245,7 @@ export default function AddExpenseModal({
   }
 
   function handleCancel() {
-    setFormData({
-      grupo_id: groupId || "",
-      concepto: "",
-      cantidad: "",
-      pagador_id: user?.id || "",
-      participantes: [],
-    });
-    setError(null);
-    setSuccess(false);
-    setAvailableMembers([]);
+    resetForm();
     onClose();
   }
 
@@ -334,7 +337,7 @@ export default function AddExpenseModal({
               required
             >
               {availableMembers.length === 0 ? (
-                <option value="">Cargando...</option>
+                <option value="">Selecciona un grupo primero</option>
               ) : (
                 <>
                   <option value="">Selecciona quién pagó</option>

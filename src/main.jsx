@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/global.css";
 
-// Providers
 import AuthProvider from "./context/AuthContext";
 import GroupsProvider from "./context/GroupsContext";
 import ExpensesProvider from "./context/ExpensesContext";

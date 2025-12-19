@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Users } from "lucide-react";
 import useGroups from "../hooks/useGroups";
 import GroupCard from "../components/GroupCard";
 import NewGroupModal from "../components/NewGroupModal";
@@ -24,9 +25,15 @@ export default function Grupos() {
 
   return (
     <div className="page-container">
-      {/* Header con título y botón */}
-      <div className="page-header">
-        <h1 className="title">Mis Grupos</h1>
+      {/* Header */}
+      <div className="dashboard-header">
+        <div className="dashboard-welcome">
+          <Users className="dashboard-icon" size={32} />
+          <div>
+            <h1 className="title">Mis Grupos</h1>
+            <p className="subtitle">Gestiona tus grupos y gastos compartidos</p>
+          </div>
+        </div>
         <button
           className="btn btn-primary"
           onClick={() => setShowNewGroupModal(true)}
@@ -63,7 +70,7 @@ export default function Grupos() {
         </div>
       )}
 
-      {/* Modal para crear grupo */}
+      {/* Modal Crear grupo */}
       <NewGroupModal
         isOpen={showNewGroupModal}
         onClose={() => setShowNewGroupModal(false)}

@@ -1,7 +1,5 @@
-// IMPORTS
 import { createContext, useEffect, useState } from "react";
 
-// CONTEXTO DE AUTENTICACIÓN
 export const AuthContext = createContext(null);
 
 // Claves de LocalStorage

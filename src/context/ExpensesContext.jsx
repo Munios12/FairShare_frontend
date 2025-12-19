@@ -1,11 +1,7 @@
-// IMPORTS
-
 import { createContext, useState } from "react";
 
-// CREAR CONTEXTO DE GASTOS
 export const ExpensesContext = createContext(null);
 
-// PROVIDER DEL CONTEXTO
 export default function ExpensesProvider({ children }) {
 
   // Estado interno: lista de gastos del grupo activo
@@ -36,17 +32,15 @@ export default function ExpensesProvider({ children }) {
 
   // Añadir un nuevo gasto
   function addExpense(expense) {
-    // expense deberá contener:
-    //   concept, amount, paidBy, participants...
     const formatted = {
-      id: Date.now(), // id simulado
+      id: Date.now(), 
       ...expense,
     };
 
     setExpenses((prev) => [...prev, formatted]);
   }
 
-  // EXPONER ESTADO + FUNCIONES
+  // ESTADO + FUNCIONES
   return (
     <ExpensesContext.Provider
       value={{

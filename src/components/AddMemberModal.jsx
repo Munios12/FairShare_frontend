@@ -31,7 +31,7 @@ export default function AddMemberModal({ isOpen, onClose, groupId, onMemberAdded
       setSuccess(true);
       setEmail("");
 
-      // Esperar un momento para mostrar el éxito y luego cerrar
+      // Mostrar éxito y cerrar
       setTimeout(() => {
         onMemberAdded();
       }, 1500);

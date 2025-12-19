@@ -1,16 +1,7 @@
-// Importamos el hook de navegación
 import { useNavigate } from "react-router-dom";
-
-// Importamos React hooks
 import { useEffect, useRef, useState } from "react";
-
-// Importamos el hook de Auth para poder hacer logout y actualizar usuario
 import useAuth from "../hooks/useAuth";
-
-// Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";
-
-// Importamos el servicio para actualizar el avatar
 import { updateAvatarRequest } from "../services/authService";
 
 // Componente Header: barra superior fija en toda la aplicación

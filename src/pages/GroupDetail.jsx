@@ -5,7 +5,8 @@ import useAuth from "../hooks/useAuth";
 import AddMemberModal from "../components/AddMemberModal";
 import DeleteGroupModal from "../components/DeleteGroupModal";
 import AddExpenseModal from "../components/AddExpenseModal";
-import ExpenseActionsModal from "../components/ExpenseActionsModal"; 
+import ExpenseActionsModal from "../components/ExpenseActionsModal";
+import GroupBalanceCard from "../components/GroupBalanceCard";
 
 export default function GroupDetail() {
   const { id } = useParams();
@@ -19,8 +20,8 @@ export default function GroupDetail() {
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
-  const [showExpenseActionsModal, setShowExpenseActionsModal] = useState(false);  
-  const [selectedExpense, setSelectedExpense] = useState(null);  
+  const [showExpenseActionsModal, setShowExpenseActionsModal] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
   useEffect(() => {
     loadGroupDetail();
@@ -51,7 +52,7 @@ export default function GroupDetail() {
     setShowAddExpenseModal(false);
   }
 
-  async function handleExpenseUpdated() { 
+  async function handleExpenseUpdated() {
     await loadGroupDetail();
     setShowExpenseActionsModal(false);
     setSelectedExpense(null);
@@ -60,16 +61,14 @@ export default function GroupDetail() {
   function handleExpenseClick(expense) {
     console.log("💰 Gasto clickeado:", expense);
     console.log("📍 ID del grupo actual:", id);
-    
-    // ✅ Añadir grupo_id al expense antes de pasarlo
+
     const expenseWithGroupId = {
       ...expense,
-      grupo_id: parseInt(id)
+      grupo_id: parseInt(id),
     };
-    
+
     console.log("✅ Gasto con grupo_id:", expenseWithGroupId);
-    
-    // ✅ CORRECCIÓN: Pasar expenseWithGroupId
+
     setSelectedExpense(expenseWithGroupId);
     setShowExpenseActionsModal(true);
   }
@@ -90,10 +89,11 @@ export default function GroupDetail() {
   if (error) {
     return (
       <div className="page-container">
-        <div className="alert alert-error">
-          ❌ {error}
-        </div>
-        <button className="btn btn-secondary" onClick={() => navigate("/grupos")}>
+        <div className="alert alert-error">❌ {error}</div>
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate("/grupos")}
+        >
           ← Volver a grupos
         </button>
       </div>
@@ -105,7 +105,10 @@ export default function GroupDetail() {
       <div className="page-container">
         <div className="empty-state">
           <h2>Grupo no encontrado</h2>
-          <button className="btn btn-secondary" onClick={() => navigate("/grupos")}>
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate("/grupos")}
+          >
             ← Volver a grupos
           </button>
         </div>
@@ -123,7 +126,7 @@ export default function GroupDetail() {
           </button>
           <h1 className="title">{group.nombre_grupo}</h1>
         </div>
-        
+
         {isCreator && (
           <button
             className="btn btn-danger"
@@ -152,7 +155,9 @@ export default function GroupDetail() {
             {group.miembros && group.miembros.length > 0 ? (
               group.miembros.map((member) => (
                 <div key={member.id} className="member-item">
-                  <div className={`avatar avatar--${member.avatar_color || "teal"}`}>
+                  <div
+                    className={`avatar avatar--${member.avatar_color || "teal"}`}
+                  >
                     {member.nombre_usuario?.charAt(0).toUpperCase()}
                   </div>
                   <div className="member-info">
@@ -174,7 +179,7 @@ export default function GroupDetail() {
         <div className="card">
           <div className="card-header">
             <h2>💰 Gastos recientes</h2>
-            <button 
+            <button
               className="btn btn-small btn-primary"
               onClick={() => setShowAddExpenseModal(true)}
             >
@@ -185,10 +190,10 @@ export default function GroupDetail() {
           <div className="expenses-list">
             {group.gastos_recientes && group.gastos_recientes.length > 0 ? (
               group.gastos_recientes.map((expense) => (
-                <div 
-                  key={expense.id} 
-                  className="expense-item expense-item-clickable"  
-                  onClick={() => handleExpenseClick(expense)}  
+                <div
+                  key={expense.id}
+                  className="expense-item expense-item-clickable"
+                  onClick={() => handleExpenseClick(expense)}
                 >
                   <div className="expense-info">
                     <div className="expense-description">
@@ -212,6 +217,9 @@ export default function GroupDetail() {
         </div>
       </div>
 
+      {/* BALANCE DEL GRUPO */}
+      <GroupBalanceCard groupId={id} />
+
       {/* Modales */}
       <AddMemberModal
         isOpen={showAddMemberModal}
@@ -233,7 +241,6 @@ export default function GroupDetail() {
         onExpenseAdded={handleExpenseAdded}
       />
 
-      {/* ✅ Modal de acciones de gasto */}
       <ExpenseActionsModal
         expense={selectedExpense}
         isOpen={showExpenseActionsModal}

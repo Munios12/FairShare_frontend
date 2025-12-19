@@ -87,7 +87,7 @@ export async function updateProfileRequest(token, updates) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(updates), // Puede tener nombre_usuario y/o email
+    body: JSON.stringify(updates),
   });
 
   const json = await res.json();

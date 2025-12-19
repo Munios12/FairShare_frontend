@@ -1,16 +1,7 @@
-// Importamos React hooks
 import { useState } from "react";
-
-// Importamos navegación
 import { useNavigate } from "react-router-dom";
-
-// Importamos Auth
 import useAuth from "../hooks/useAuth";
-
-// Importamos servicio real de backend
 import { loginRequest } from "../services/authService";
-
-// Importamos el logo de FairShare
 import logo from "../assets/img/FairShare_3.png";
 
 export default function Login() {
@@ -30,7 +21,7 @@ export default function Login() {
     setError("");
 
     try {
-      // El backend devuelve { token, user } 
+      // Backend devuelve { token, user } 
       const { token, user } = await loginRequest({ email, password });
 
       // Guardar token + user
